@@ -1,1 +1,3 @@
-# zerowaste-mobile
+# zero_waste_application
+
+A new Flutter project.
