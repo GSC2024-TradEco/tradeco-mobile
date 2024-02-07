@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/community_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/diy_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/home_page.dart';
+import 'package:zero_waste_application/ui/pages/profile_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -34,7 +35,17 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Hi Aldi"),
-            Icon(Icons.person),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(),
+                  ),
+                );
+              },
+              child: Icon(Icons.person),
+            ),
           ],
         ),
       ),
