@@ -40,11 +40,11 @@ class _MainPageState extends State<MainPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(),
+                    builder: (context) => const ProfilePage(),
                   ),
                 );
               },
-              child: Icon(Icons.person),
+              child: const Icon(Icons.person),
             ),
           ],
         ),
@@ -53,13 +53,20 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _pagesIndex,
         selectedItemColor: Colors.black,
         onTap: _onItemTapped,
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Community'),
           BottomNavigationBarItem(icon: Icon(Icons.create), label: 'DIY'),
         ],
       ),
       body: Center(child: _mainMenus.elementAt(_pagesIndex)),
+      floatingActionButton: _pagesIndex == 1
+          ? FloatingActionButton.extended(
+              onPressed: () {},
+              icon: const Icon(Icons.add),
+              label: const Text("POST"),
+            )
+          : const Text(""),
     );
   }
 }
