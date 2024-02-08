@@ -1,14 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/community_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/diy_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/home_page.dart';
 import 'package:zero_waste_application/ui/pages/profile_page.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
-
+  const MainPage({
+    super.key,
+    required this.cam,
+  });
+  final CameraDescription cam;
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -21,11 +23,17 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  static const List<Widget> _mainMenus = <Widget>[
-    HomePage(),
-    CommunityPage(),
-    DiyPage()
-  ];
+  static List<Widget> _mainMenus = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _mainMenus = [
+      HomePage(),
+      CommunityPage(),
+      DiyPage(cam: widget.cam),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
