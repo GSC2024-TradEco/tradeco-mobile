@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/community_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/diy_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/home_page.dart';

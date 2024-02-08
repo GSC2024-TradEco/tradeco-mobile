@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zero_waste_application/ui/pages/tipsandtrick_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -31,6 +32,12 @@ class _HomePageState extends State<HomePage> {
                     InkWell(
                       onTap: () {
                         print('tap');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TipsAndTrickPage(),
+                          ),
+                        );
                       },
                       child: const Text(
                         "See All",
