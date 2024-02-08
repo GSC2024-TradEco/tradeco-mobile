@@ -1,9 +1,11 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:zero_waste_application/ui/pages/newdiy_page.dart';
 
 class DiyPage extends StatefulWidget {
-  const DiyPage({super.key});
-
+  const DiyPage({super.key, required this.cam});
+  final CameraDescription cam;
   @override
   State<DiyPage> createState() => _DiyPageState();
 }
@@ -23,26 +25,39 @@ class _DiyPageState extends State<DiyPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  height: 105,
-                  width: 126,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Icon(Icons.camera_alt), Text("Scan Items")],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NewDiyPage(cam: widget.cam),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 105,
+                    width: 126,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Icon(Icons.camera_alt), Text("Scan Items")],
+                    ),
                   ),
                 ),
-                Container(
-                  height: 105,
-                  width: 126,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Icon(Icons.notes), Text("Add manual")],
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: 105,
+                    width: 126,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Icon(Icons.notes), Text("Add manual")],
+                    ),
                   ),
                 ),
               ],
