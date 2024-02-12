@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
-import 'package:zero_waste_application/models/project.dart';
+import 'package:zero_waste_application/models/post.dart';
 
-class UserBookmarkController {
-  Future<List<Project>> getAllBookmarks(String token) async {
-    final Uri uri = Uri.parse(API.baseUrl + API.bookmarkEndpoints.findAll);
+class PostController {
+  Future<List<Post>> getAllPosts(String token) async {
+    final Uri uri = Uri.parse(API.baseUrl + API.postEndpoints.findAll);
 
     try {
       final http.Response response = await http.get(
@@ -18,19 +18,19 @@ class UserBookmarkController {
 
       if (response.statusCode == 200) {
         List<dynamic> jsonList = json.decode(response.body);
-        List<Project> projects =
-            jsonList.map((json) => Project.fromJson(json)).toList();
-        return projects;
+        List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
+        return posts;
       }
     } catch (e) {
       // Handle any network errors
-      print('Network error: $e');
+      print('Error: $e');
     }
   }
 
-  Future<Project> createOneBookmark(int projectId, String token) async {
-    final Uri uri = Uri.parse(API.baseUrl + API.bookmarkEndpoints.createOne);
-    Map<String, dynamic> body = {'projectId ': projectId};
+  Future<Post> createOnePost(
+      String title, String description, String token) async {
+    final Uri uri = Uri.parse(API.baseUrl + API.postEndpoints.createOne);
+    Map<String, String> body = {'title ': title, 'description': description};
 
     try {
       final http.Response response = await http.post(
@@ -44,8 +44,8 @@ class UserBookmarkController {
 
       if (response.statusCode == 201) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
-        Project project = Project.fromJson(jsonResponse);
-        return project;
+        Post post = Post.fromJson(jsonResponse);
+        return post;
       }
     } catch (e) {
       // Handle any network errors
@@ -53,9 +53,9 @@ class UserBookmarkController {
     }
   }
 
-  Future<bool> deleteOneBookmark(int projectId, String token) async {
+  Future<bool> deleteOneBookmark(int postId, String token) async {
     final Uri uri =
-        Uri.parse(API.baseUrl + API.bookmarkEndpoints.deleteOne(projectId));
+        Uri.parse(API.baseUrl + API.postEndpoints.deleteOne(postId));
 
     try {
       final http.Response response = await http.delete(
