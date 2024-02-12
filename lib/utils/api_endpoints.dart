@@ -35,6 +35,8 @@ class _PostEndpoints {
 }
 
 class _WasteEndpoints {
-  static const String shareWaste = '/wastes/share';
+  static const String findAll = '/wastes';
+  static String createOne(int id) = '/waste';
+  static String deleteOne(int id) => '/wastes/$id';
   static const String getSuggestion = '/wastes/project-suggestions';
 }
