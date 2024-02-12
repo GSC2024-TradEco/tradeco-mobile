@@ -17,8 +17,9 @@ class PostController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonList = json.decode(response.body);
-        List<Post> posts = jsonList.map((json) => Post.fromJson(json)).toList();
+        List<dynamic> jsonResponse = json.decode(response.body.data);
+        List<Post> posts =
+            jsonResponse.map((json) => Post.fromJson(json)).toList();
         return posts;
       }
     } catch (e) {
@@ -43,7 +44,7 @@ class PostController {
       );
 
       if (response.statusCode == 201) {
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        Map<String, dynamic> jsonResponse = json.decode(response.body.data);
         Post post = Post.fromJson(jsonResponse);
         return post;
       }

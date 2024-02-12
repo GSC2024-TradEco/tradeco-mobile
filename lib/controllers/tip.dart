@@ -17,8 +17,9 @@ class TipController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonList = json.decode(response.body);
-        List<Tip> tips = jsonList.map((json) => Tip.fromJson(json)).toList();
+        List<dynamic> jsonResponse = json.decode(response.body.data);
+        List<Tip> tips =
+            jsonResponse.map((json) => Tip.fromJson(json)).toList();
         return tips;
       }
     } catch (e) {
@@ -40,7 +41,7 @@ class TipController {
       );
 
       if (response.statusCode == 201) {
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        Map<String, dynamic> jsonResponse = json.decode(response.body.data);
         Tip tip = Tip.fromJson(jsonResponse);
         return tip;
       }

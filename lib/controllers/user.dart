@@ -19,8 +19,8 @@ class UserController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonList = json.decode(response.body);
-        User user = jsonList.map((json) => User.fromJson(json)).toList();
+        Map<String, dynamic> jsonResponse = json.decode(response.body.data);
+        User user = jsonResponse.map((json) => User.fromJson(json)).toList();
         return user;
       }
     } catch (e) {
@@ -45,8 +45,8 @@ class UserController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonList = json.decode(response.body);
-        User user = jsonList.map((json) => User.fromJson(json)).toList();
+        Map<String, dynamic> jsonResponse = json.decode(response.body.data);
+        User user = jsonResponse.map((json) => User.fromJson(json)).toList();
         return user;
       }
     } catch (e) {

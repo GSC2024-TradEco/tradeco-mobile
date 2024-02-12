@@ -17,9 +17,9 @@ class BookmarkController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonList = json.decode(response.body);
+        List<dynamic> jsonResponse = json.decode(response.body.data);
         List<Project> projects =
-            jsonList.map((json) => Project.fromJson(json)).toList();
+            jsonResponse.map((json) => Project.fromJson(json)).toList();
         return projects;
       }
     } catch (e) {
@@ -43,7 +43,7 @@ class BookmarkController {
       );
 
       if (response.statusCode == 201) {
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        Map<String, dynamic> jsonResponse = json.decode(response.body.data);
         Project project = Project.fromJson(jsonResponse);
         return project;
       }

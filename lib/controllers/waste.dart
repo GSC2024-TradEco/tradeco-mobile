@@ -18,9 +18,9 @@ class WasteController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonList = json.decode(response.body);
+        List<dynamic> jsonResponse = json.decode(response.body.data);
         List<Waste> wastes =
-            jsonList.map((json) => Waste.fromJson(json)).toList();
+            jsonResponse.map((json) => Waste.fromJson(json)).toList();
         return wastes;
       }
     } catch (e) {
@@ -43,7 +43,7 @@ class WasteController {
       );
 
       if (response.statusCode == 201) {
-        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        Map<String, dynamic> jsonResponse = json.decode(response.body.data);
         Waste waste = Waste.fromJson(jsonResponse);
         return waste;
       }
@@ -93,9 +93,9 @@ class WasteController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonList = json.decode(response.body);
+        List<dynamic> jsonResponse = json.decode(response.body.data);
         List<Project> projects =
-            jsonList.map((json) => Project.fromJson(json)).toList();
+            jsonResponse.map((json) => Project.fromJson(json)).toList();
         return projects;
       }
     } catch (e) {
