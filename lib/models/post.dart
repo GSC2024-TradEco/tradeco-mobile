@@ -1,18 +1,20 @@
-import 'package:zero_waste_application/models/user.dart';
-
 class Post {
   final int id;
   final String title;
   final String description;
   final String image;
-  final User user;
+  final int UserId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Post({
     required this.id,
     required this.title,
     required this.description,
     required this.image,
-    required this.user,
+    required this.UserId,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,8 @@ class Post {
         title: json['title'],
         description: json['description'],
         image: json['image'],
-        user: User.fromJson(json['user']));
+        UserId: json['UserId'],
+        createdAt: json['createdAt'],
+        updatedAt: json['updatedAt']);
   }
 }

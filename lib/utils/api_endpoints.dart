@@ -1,6 +1,6 @@
 class API {
-  static const String baseUrl = 'http://10.0.0.2/api/v1';
-  
+  static const String baseUrl = 'https://tradeco-api-wyk7a4jpva-et.a.run.app';
+
   static _AuthEndpoints authEndpoints = _AuthEndpoints();
   static _ProjectEndpoints projectEndpoints = _ProjectEndpoints();
   static _BookmarkEndpoints bookmarkEndpoints = _BookmarkEndpoints();
