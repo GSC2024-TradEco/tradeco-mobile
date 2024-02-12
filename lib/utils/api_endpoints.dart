@@ -2,6 +2,7 @@ class API {
   static const String baseUrl = 'https://tradeco-api-wyk7a4jpva-et.a.run.app';
 
   static _AuthEndpoints authEndpoints = _AuthEndpoints();
+  static _UserEndpoints userEndpoints = _UserEndpoints();
   static _ProjectEndpoints projectEndpoints = _ProjectEndpoints();
   static _BookmarkEndpoints bookmarkEndpoints = _BookmarkEndpoints();
   static _TipEndpoints tipEndpoints = _TipEndpoints();
@@ -11,6 +12,11 @@ class API {
 
 class _AuthEndpoints {
   static const String register = '/auth/register';
+}
+
+class _UserEndpoints {
+  static const String updateInstagram = '/user/instagram';
+  static const String updateLocation = '/user/location';
 }
 
 class _ProjectEndpoints {

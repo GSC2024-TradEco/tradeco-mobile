@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
 import 'package:zero_waste_application/models/tip.dart';
 
-class tipController {
+class TipController {
   Future<List<Tip>> getAllTips(String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.tipEndpoints.findAll);
 
