@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zero_waste_application/controllers/authentication.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -8,7 +10,16 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  int view = 1;
+  int view = 0;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  bool passwordsMatch = true;
+
+  AuthController authController = AuthController();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,19 +40,38 @@ class _AuthPageState extends State<AuthPage> {
           margin: EdgeInsets.only(bottom: 77),
           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
         ),
-        const TextField(
+        TextField(
+          controller: emailController,
           decoration: InputDecoration(
             labelText: "Email",
           ),
         ),
         const SizedBox(height: 18),
-        const TextField(
+        TextField(
+          controller: passwordController,
+          obscureText: true,
           decoration: InputDecoration(
             labelText: "Password",
           ),
         ),
         const SizedBox(height: 25),
-        ElevatedButton(onPressed: () {}, child: Text("Login")),
+        ElevatedButton(
+            onPressed: () async {
+              String email = emailController.text;
+              String password = passwordController.text;
+              try {
+                await _auth.signInWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+                // User successfully logged in, you can navigate to another screen
+              } catch (e) {
+                // An error occurred, handle it accordingly
+                print('Login failed: $e');
+                // You can also show an error message to the user
+              }
+            },
+            child: Text("Login")),
         const SizedBox(height: 18),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,31 +102,52 @@ class _AuthPageState extends State<AuthPage> {
           margin: EdgeInsets.only(bottom: 77),
           decoration: BoxDecoration(border: Border.all(color: Colors.black)),
         ),
-        const TextField(
+        TextField(
+          controller: nameController,
           decoration: InputDecoration(
             labelText: "Name",
           ),
         ),
         const SizedBox(height: 18),
-        const TextField(
+        TextField(
+          controller: emailController,
           decoration: InputDecoration(
             labelText: "Email",
           ),
         ),
         const SizedBox(height: 18),
-        const TextField(
+        TextField(
+          controller: passwordController,
+          obscureText: true,
           decoration: InputDecoration(
             labelText: "Password",
           ),
+          onChanged: (value) {
+            setState(() {
+              passwordsMatch = (value == confirmPasswordController.text);
+            });
+          },
         ),
         const SizedBox(height: 18),
-        const TextField(
+        TextField(
+          controller: confirmPasswordController,
+          obscureText: true,
           decoration: InputDecoration(
-            labelText: "Confirm Password",
-          ),
+              labelText: "Confirm Password",
+              errorText: passwordsMatch ? null : "Passwords do not match"),
+          onChanged: (value) {
+            setState(() {
+              passwordsMatch = (value == passwordController.text);
+            });
+          },
         ),
         const SizedBox(height: 25),
-        ElevatedButton(onPressed: () {}, child: Text("Register")),
+        ElevatedButton(
+            onPressed: () {
+              authController.register(nameController.text, emailController.text,
+                  passwordController.text);
+            },
+            child: Text("Register")),
         const SizedBox(height: 18),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
