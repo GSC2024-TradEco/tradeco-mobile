@@ -1,15 +1,15 @@
-class Post {
+class Waste {
   final int id;
   final String name;
   final int UserId;
 
-  Post({
+  Waste({
     required this.id,
     required this.name,
     required this.UserId,
   });
 
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(id: json['id'], name: json['name'], UserId: json['user']);
+  factory Waste.fromJson(Map<String, dynamic> json) {
+    return Waste(id: json['id'], name: json['name'], UserId: json['user']);
   }
 }

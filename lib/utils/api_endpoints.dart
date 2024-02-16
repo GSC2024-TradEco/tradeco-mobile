@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 class API {
   static const String baseUrl = 'https://tradeco-api-wyk7a4jpva-et.a.run.app';
 
@@ -11,38 +13,38 @@ class API {
 }
 
 class _AuthEndpoints {
-  static const String register = '/auth/register';
+  final String register = '/auth/register';
 }
 
 class _UserEndpoints {
-  static const String updateInstagram = '/user/instagram';
-  static const String updateLocation = '/user/location';
+  final String updateInstagram = '/user/instagram';
+  final String updateLocation = '/user/location';
 }
 
 class _ProjectEndpoints {
-  static const String findAll = '/projects';
-  static String findOne(int id) => '/projects/$id';
+  final String findAll = '/projects';
+  String findOne(int id) => '/projects/$id';
 }
 
 class _BookmarkEndpoints {
-  static const String findAll = '/bookmarks/projects';
-  static const String createOne = '/bookmarks/project';
-  static String deleteOne(int id) => '/bookmarks/projects/$id';
+  final String findAll = '/bookmarks/projects';
+  final String createOne = '/bookmarks/project';
+  String deleteOne(int id) => '/bookmarks/projects/$id';
 }
 
 class _TipEndpoints {
-  static const String findAll = '/tips';
-  static String findOne(int id) => '/tips/$id';
+  final String findAll = '/tips';
+  String findOne(int id) => '/tips/$id';
 }
 
 class _PostEndpoints {
-  static const String findAll = '/posts';
-  static const String createOne = '/post';
+  final String findAll = '/posts';
+  final String createOne = '/post';
 }
 
 class _WasteEndpoints {
-  static const String findAll = '/wastes';
-  static String createOne(int id) = '/waste';
-  static String deleteOne(int id) => '/wastes/$id';
-  static const String getSuggestion = '/wastes/project-suggestions';
+  final String findAll = '/wastes';
+  final String createOne = '/waste';
+  String deleteOne(int id) => '/wastes/$id';
+  final String getSuggestion = '/wastes/project-suggestions';
 }
