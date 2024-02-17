@@ -6,6 +6,8 @@ class Project {
   final List<String> steps;
   final String image;
   final String reference;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Project({
     required this.id,
@@ -15,16 +17,21 @@ class Project {
     required this.steps,
     required this.image,
     required this.reference,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
-        id: json['id'],
-        title: json['title'],
-        description: json['description'],
-        materials: json['materials'],
-        steps: json['steps'],
-        image: json['image'],
-        reference: json['reference']);
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      materials: json['materials'],
+      steps: json['steps'],
+      image: json['image'],
+      reference: json['reference'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+    );
   }
 }

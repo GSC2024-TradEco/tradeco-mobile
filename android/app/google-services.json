@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "249258638873",
+    "project_id": "gsc2024-tradeco",
+    "storage_bucket": "gsc2024-tradeco.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249258638873:android:725ec01433a9dd86247488",
+        "android_client_info": {
+          "package_name": "com.example.zero_waste_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "249258638873-6cptkp3c8sbut9k9a031mp9bj3umhmvd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zero_waste_application",
+            "certificate_hash": "9ec6019895977675cfdb5e88fa15c8c2d1c4d8c3"
+          }
+        },
+        {
+          "client_id": "249258638873-2j3ndovmepan6bt13np91gs7vv677tcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh4VvzhB8q_E5xjGcE9BEK62u6NHpL1g8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249258638873-2j3ndovmepan6bt13np91gs7vv677tcj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "249258638873-1dk6vavkbdkegh5d14hgruht9ehpsm0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zeroWasteApplication.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

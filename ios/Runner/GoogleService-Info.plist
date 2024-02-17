@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>249258638873-cke1q2q4j8pbr92r98e7hloh42p1i6su.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.249258638873-cke1q2q4j8pbr92r98e7hloh42p1i6su</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>249258638873-6cptkp3c8sbut9k9a031mp9bj3umhmvd.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBaJ66PpHNuFgJMqpHi_yptFj5PFaDf86E</string>
+	<key>GCM_SENDER_ID</key>
+	<string>249258638873</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.zeroWasteApplication</string>
+	<key>PROJECT_ID</key>
+	<string>gsc2024-tradeco</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gsc2024-tradeco.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:249258638873:ios:c1adffd30d05e056247488</string>
+</dict>
+</plist>
