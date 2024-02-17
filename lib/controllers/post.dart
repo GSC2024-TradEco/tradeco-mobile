@@ -4,7 +4,7 @@ import 'package:zero_waste_application/utils/api_endpoints.dart';
 import 'package:zero_waste_application/models/post.dart';
 
 class PostController {
-  Future<List<Post>?> getAllPosts(String token) async {
+  Future<List<dynamic>?> getAllPosts(String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.postEndpoints.findAll);
 
     try {
@@ -15,13 +15,18 @@ class PostController {
           'Authorization': 'Bearer $token'
         },
       );
-
+      print("RESP");
+      print(response.statusCode);
       if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = json.decode(response.body);
-        List<Post> posts =
-            jsonResponse.map((json) => Post.fromJson(json)).toList();
-        return posts;
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+        List<dynamic> data = jsonResponse['data'];
+        print(data);
+        return data;
       }
+      print("RESP");
+      print(response.statusCode);
+      print(response.body);
       return null;
     } catch (e) {
       print('Error: $e');

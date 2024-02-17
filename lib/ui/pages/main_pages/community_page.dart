@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:zero_waste_application/controllers/post.dart';
+import 'package:zero_waste_application/models/post.dart';
 
 class CommunityPage extends StatefulWidget {
   const CommunityPage({super.key});
@@ -8,10 +12,50 @@ class CommunityPage extends StatefulWidget {
 }
 
 class _CommunityPageState extends State<CommunityPage> {
+  PostController postController = PostController();
+  bool onLoading = false;
+  List<Map<String, dynamic>> postList = [];
+
   @override
+  void initState() {
+    super.initState();
+    _fetchPosts();
+  }
+
+  Future<void> _fetchPosts() async {
+    try {
+      setState(() {
+        onLoading = true;
+      });
+      String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
+      List<dynamic>? posts = await postController.getAllPosts(token!);
+      setState(() {
+        if (posts != null) {
+          for (dynamic post in posts) {
+            postList.add(post);
+          }
+        }
+        onLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        onLoading = false;
+      });
+      print("Error fetching posts: $e");
+    }
+  }
+
+  String _formatDateTime(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String formattedDateTime = DateFormat.yMMMMd().add_jms().format(dateTime);
+    return formattedDateTime;
+  }
+
   Widget build(BuildContext context) {
     return ListView.separated(
       itemBuilder: (context, index) {
+        final post = postList[index];
+        final user = post['User'];
         return InkWell(
           onTap: () {},
           child: Padding(
@@ -23,14 +67,17 @@ class _CommunityPageState extends State<CommunityPage> {
                 color: Colors.white,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Icon(Icons.person, size: 44),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Aldi Fahluzi"),
-                          Text("4 mins ago"),
+                          Text(user['displayName']),
+                          Text(_formatDateTime(
+                              post['createdAt'])), // Format the datetime
                         ],
                       ),
                     ],
@@ -42,17 +89,32 @@ class _CommunityPageState extends State<CommunityPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("I just create something new.."),
+                        // Display the title with a larger font size and bold style
+                        Text(
+                          post['title'],
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         SizedBox(height: 5),
-                        Image.asset(
-                            "assets/images/backgrounds/plant funny.jpg"),
+                        // Display the description
+                        Text(
+                          post['description'],
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        // Use post['image'] if it's not null, otherwise don't display an image
+                        post['image'] != null
+                            ? Image.network(post['image'])
+                            : SizedBox
+                                .shrink(), // This will create an empty SizedBox
                         SizedBox(height: 5),
                         Row(
                           children: [
                             Icon(Icons.thumb_up_alt_outlined),
-                            Text("15"),
-                            Icon(Icons.comment_outlined),
-                            Text("15")
                           ],
                         )
                       ],
@@ -67,7 +129,7 @@ class _CommunityPageState extends State<CommunityPage> {
       separatorBuilder: (context, index) {
         return const SizedBox(height: 4);
       },
-      itemCount: 10,
+      itemCount: postList.length,
     );
   }
 }
