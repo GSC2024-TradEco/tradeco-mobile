@@ -8,8 +8,7 @@ import 'package:zero_waste_application/ui/pages/main_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key, required this.cam});
-  final CameraDescription cam;
+  const AuthPage({super.key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -23,9 +22,22 @@ class _AuthPageState extends State<AuthPage> {
   TextEditingController confirmPasswordController = TextEditingController();
   bool passwordMatch = false;
   bool isLoading = false;
+  List<CameraDescription> cameras = [];
 
   AuthController authController = AuthController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  @override
+  void initState() async {
+    // TODO: implement initState
+    super.initState();
+    try {
+      cameras = await availableCameras();
+    } on CameraException catch (e) {
+      print("${e.code} ${e.description}");
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +233,7 @@ class _AuthPageState extends State<AuthPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MainPage(cam: widget.cam),
+                      builder: (context) => MainPage(cam: cameras.first),
                     ),
                   );
                   setState(() {

@@ -48,7 +48,7 @@ class AuthenticationWrapper extends StatelessWidget {
         } else if (snapshot.hasData && snapshot.data != null) {
           return MainPage(cam: cameras.first);
         } else {
-          return AuthPage(cam: cameras.first);
+          return AuthPage();
         }
       },
     );
