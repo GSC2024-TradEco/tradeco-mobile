@@ -20,6 +20,7 @@ class AuthController {
       if (response.statusCode == 201) {
         return true;
       }
+      print(response.body);
       return false;
     } catch (e) {
       print('Error: $e');
