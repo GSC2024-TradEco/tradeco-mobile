@@ -8,7 +8,8 @@ import 'package:zero_waste_application/ui/pages/main_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+  const AuthPage({super.key, required this.cam});
+  final CameraDescription cam;
 
   @override
   State<AuthPage> createState() => _AuthPageState();

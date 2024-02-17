@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zero_waste_application/firebase_options.dart';
 import 'package:zero_waste_application/ui/pages/main_page.dart';
-import 'firebase_options.dart';
 import 'package:zero_waste_application/ui/pages/auth_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
@@ -49,7 +48,7 @@ class AuthenticationWrapper extends StatelessWidget {
         } else if (snapshot.hasData && snapshot.data != null) {
           return MainPage(cam: cameras.first);
         } else {
-          return AuthPage();
+          return AuthPage(cam: cameras.first);
         }
       },
     );
