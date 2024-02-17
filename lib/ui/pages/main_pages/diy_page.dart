@@ -1,7 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:zero_waste_application/ui/pages/newdiy_page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zero_waste_application/ui/pages/camera_page.dart';
+import 'package:zero_waste_application/ui/pages/diylistitem_page.dart';
+import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class DiyPage extends StatefulWidget {
   const DiyPage({super.key, required this.cam});
@@ -14,108 +16,190 @@ class _DiyPageState extends State<DiyPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Expanded(
         child: Column(
           children: [
             Text(
-              'Want to create something new with your waste? Lets jump here!',
+              'Upcycle your waste, ignite your creativity!',
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: CustomTheme.fontWeight.light,
+                ),
+              ),
             ),
-            SizedBox(height: 18),
+            Text(
+              'Your trash, your treasure.',
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: CustomTheme.fontWeight.bold,
+                  color: CustomTheme.color.base1,
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
-                  onTap: () {
+                ElevatedButton(
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NewDiyPage(cam: widget.cam),
+                        builder: (builder) => NewDiyPage(cam: widget.cam),
                       ),
                     );
                   },
-                  child: Container(
-                    height: 105,
-                    width: 126,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                  ),
+                  child: SizedBox(
+                    height: 120,
+                    width: 85,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.camera_alt), Text("Scan Items")],
+                      children: [
+                        Image.asset(
+                          "assets/images/icons/scan.png",
+                          width: 38,
+                          height: 38,
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          "Scan Items",
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                              fontSize: 13,
+                              fontWeight: CustomTheme.fontWeight.regular,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: 105,
-                    width: 126,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (builder) => DiyListItem(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                  ),
+                  child: SizedBox(
+                    height: 120,
+                    width: 85,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.notes), Text("Add manual")],
+                      children: [
+                        Image.asset(
+                          "assets/images/icons/items.png",
+                          width: 38,
+                          height: 38,
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          "My Items",
+                          style: GoogleFonts.lato(
+                            textStyle: TextStyle(
+                              fontSize: 13,
+                              fontWeight: CustomTheme.fontWeight.regular,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 18),
+            const SizedBox(height: 18),
             Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Column(
-                  children: [
-                    Text("Your DIY Project"),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                        ),
-                        child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 142,
-                              padding: EdgeInsets.all(18),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('DIY IKAN BAR'),
-                                      Icon(Icons.settings),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 15);
-                          },
-                          itemCount: 10,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Saved Project",
+                        style: GoogleFonts.robotoSlab(
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: CustomTheme.fontWeight.regular,
+                          ),
                         ),
                       ),
+                      Text(
+                        "View All",
+                        style: GoogleFonts.robotoSlab(
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: CustomTheme.fontWeight.semibold,
+                            color: CustomTheme.color.base1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: (1 / 1.25),
+                      children: List.generate(
+                        10,
+                        (index) {
+                          return Container(
+                            margin: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                  "assets/images/backgrounds/Saved Project.png",
+                                ),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.asset(
+                                      "assets/images/backgrounds/recycle tin.webp",
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  "Recycle Cookie Tins",
+                                  style: GoogleFonts.robotoSlab(
+                                    textStyle: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight:
+                                          CustomTheme.fontWeight.regular,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           ],

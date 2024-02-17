@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:zero_waste_application/ui/pages/tipsandtrick_page.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
+    required this.changePage,
   });
+  final changePage;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,111 +17,118 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          TextField(decoration: InputDecoration(hintText: "Search")),
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Search",
+              border: const UnderlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              fillColor: CustomTheme.color.background1,
+              filled: true,
+            ),
+          ),
+          const SizedBox(height: 20),
           Container(
-            height: 154,
+            height: 156,
             width: double.infinity,
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: const DecorationImage(
+                image: AssetImage(
+                  "assets/images/backgrounds/Saved Project.png",
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Ongoing Project",
+                  style: GoogleFonts.robotoSlab(
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: CustomTheme.fontWeight.regular,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "You have no ongoing projects",
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: 13,
+                            fontWeight: CustomTheme.fontWeight.regular,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    widget.changePage(2);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomTheme.color.base1,
+                    foregroundColor: CustomTheme.color.background1,
+                  ),
+                  child: const Text("Start A Project"),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 21),
+          Container(
+            height: 156,
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: const DecorationImage(
+                image: AssetImage(
+                  "assets/images/backgrounds/Saved Project.png",
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Tips or Tricks"),
-                    InkWell(
-                      onTap: () {
-                        print('tap');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TipsAndTrickPage(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "See All",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    )
-                  ],
+                Text(
+                  "Quotes Of The Day",
+                  style: GoogleFonts.robotoSlab(
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: CustomTheme.fontWeight.regular,
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 9),
-                SizedBox(
-                  height: 97,
-                  width: double.infinity,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    separatorBuilder: (context, index) {
-                      return SizedBox(width: 12);
-                    },
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: 97,
-                        width: 143,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                      );
-                    },
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Sleep Good Live Good",
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: 13,
+                            fontWeight: CustomTheme.fontWeight.regular,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              padding: EdgeInsets.all(12),
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.black)),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("DIY Recommendations"),
-                      InkWell(
-                        onTap: () {
-                          print('tap');
-                        },
-                        child: const Text(
-                          "See All",
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 9),
-                  Expanded(
-                    child: SizedBox(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: ListView.separated(
-                        itemCount: 10,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 12);
-                        },
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: 97,
-                            width: 143,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black)),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );

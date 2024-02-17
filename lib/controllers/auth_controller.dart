@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
 
 class UserController {
+  API api = API();
   Future<bool> registerUser(
       String displayName, String email, String password) async {
     final Uri uri = Uri.parse(API.baseUrl + API.authEndpoints.register);

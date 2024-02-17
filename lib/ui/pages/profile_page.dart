@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,36 +13,84 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Profile Settings")),
+      appBar: AppBar(
+        title: const Text("Profile Settings"),
+        backgroundColor: Colors.transparent,
+      ),
       body: Container(
-        padding: EdgeInsets.all(34),
+        padding: const EdgeInsets.symmetric(vertical: 34),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: CustomTheme.color.gradientBackground1,
+          ),
+        ),
         child: Center(
           child: Column(
             children: [
               CircleAvatar(
                 radius: 70,
-                child: Icon(Icons.person),
+                backgroundImage: AssetImage(
+                  "assets/images/backgrounds/plant.png",
+                ),
               ),
-              SizedBox(height: 30),
-              Text("username"),
-              SizedBox(height: 35),
-              Text("My Contacts"),
+              const SizedBox(height: 17),
+              Text(
+                "aldifahluzi",
+                style: GoogleFonts.robotoSlab(
+                  textStyle: TextStyle(
+                    fontSize: 25,
+                    fontWeight: CustomTheme.fontWeight.regular,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 17),
+              Row(
+                children: [
+                  const SizedBox(width: 23),
+                  Text(
+                    "My Contacts",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: CustomTheme.fontWeight.regular,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
               Expanded(
                 child: ListView.separated(
                   itemBuilder: (context, index) {
                     return Container(
-                      height: 33,
+                      height: 70,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 30,
+                      ),
+                      decoration:
+                          BoxDecoration(color: CustomTheme.color.background2),
                       child: Row(
                         children: [
                           Icon(Icons.contact_emergency),
                           SizedBox(width: 5),
-                          Text("socialmedia username"),
+                          Text(
+                            "socialmedia username",
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: CustomTheme.fontWeight.light,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     );
                   },
                   separatorBuilder: (context, index) {
-                    return SizedBox(height: 10);
+                    return const SizedBox(height: 3);
                   },
                   itemCount: 10,
                 ),
@@ -51,11 +100,35 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text("Delete Account"),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: CustomTheme.color.base2,
+                      foregroundColor: Colors.black,
+                    ),
+                    child: const SizedBox(
+                      width: 100,
+                      child: Center(
+                        child: Text("Delete Account"),
+                      ),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text("Sign Out"),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: CustomTheme.color.base2,
+                      foregroundColor: Colors.black,
+                    ),
+                    child: const SizedBox(
+                      width: 100,
+                      child: Center(
+                        child: Text("Logout"),
+                      ),
+                    ),
                   ),
                 ],
               ),

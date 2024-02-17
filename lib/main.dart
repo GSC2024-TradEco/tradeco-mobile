@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:zero_waste_application/ui/pages/main_page.dart';
+import 'package:zero_waste_application/ui/pages/auth_page.dart';
+import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 List<CameraDescription> cameras = [];
 void main() async {
@@ -19,7 +20,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainPage(cam: cameras.first),
+      home: AuthPage(cam: cameras.first),
+      theme: ThemeData(scaffoldBackgroundColor: CustomTheme.color.background1),
     );
   }
 }

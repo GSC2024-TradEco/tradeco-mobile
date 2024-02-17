@@ -1,6 +1,8 @@
+// ignore_for_file: unused_field, library_private_types_in_public_api
+
 class API {
   static const String baseUrl = 'http://10.0.0.2/api/v1';
-  
+
   static _AuthEndpoints authEndpoints = _AuthEndpoints();
   static _ProjectEndpoints projectEndpoints = _ProjectEndpoints();
   static _BookmarkEndpoints bookmarkEndpoints = _BookmarkEndpoints();
@@ -10,31 +12,31 @@ class API {
 }
 
 class _AuthEndpoints {
-  static const String register = '/auth/register';
+  String register = '/auth/register';
 }
 
 class _ProjectEndpoints {
-  static const String findAll = '/projects';
-  static String findOne(int id) => '/projects/$id';
+  String findAll = '/projects';
+  String findOne(int id) => '/projects/$id';
 }
 
 class _BookmarkEndpoints {
-  static const String findAll = '/bookmarks/projects';
-  static const String createOne = '/bookmarks/project';
-  static String deleteOne(int id) => '/bookmarks/projects/$id';
+  String findAll = '/bookmarks/projects';
+  String createOne = '/bookmarks/project';
+  String deleteOne(int id) => '/bookmarks/projects/$id';
 }
 
 class _TipEndpoints {
-  static const String findAll = '/tips';
-  static String findOne(int id) => '/tips/$id';
+  String findAll = '/tips';
+  String findOne(int id) => '/tips/$id';
 }
 
 class _PostEndpoints {
-  static const String findAll = '/posts';
-  static const String createOne = '/post';
+  String findAll = '/posts';
+  String createOne = '/post';
 }
 
 class _WasteEndpoints {
-  static const String shareWaste = '/wastes/share';
-  static const String getSuggestion = '/wastes/project-suggestions';
+  String shareWaste = '/wastes/share';
+  String getSuggestion = '/wastes/project-suggestions';
 }

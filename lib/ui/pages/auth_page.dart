@@ -1,119 +1,360 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sign_in_button/sign_in_button.dart';
+import 'package:zero_waste_application/ui/pages/main_page.dart';
+import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+  const AuthPage({super.key, required this.cam});
+  final CameraDescription cam;
 
   @override
   State<AuthPage> createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
-  int view = 1;
+  int? view;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: view == 0 ? false : true,
       body: Container(
-        padding: EdgeInsets.all(50),
-        child: view == 0 ? loginView() : regisView(),
+        padding: const EdgeInsets.all(8),
+        child: view == null
+            ? landingView()
+            : view == 0
+                ? loginView()
+                : regisView(),
       ),
     );
   }
 
-  Widget loginView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget landingView() {
+    return Stack(
       children: [
-        Container(
-          width: 116,
-          height: 114,
-          margin: EdgeInsets.only(bottom: 77),
-          decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-        ),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: "Email",
-          ),
-        ),
-        const SizedBox(height: 18),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: "Password",
-          ),
-        ),
-        const SizedBox(height: 25),
-        ElevatedButton(onPressed: () {}, child: Text("Login")),
-        const SizedBox(height: 18),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Don't have any account? "),
-            InkWell(
-              onTap: () {
-                print('tap');
-              },
-              child: const Text(
-                "Register Here",
-                style: TextStyle(color: Colors.blue),
+        SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 90),
+              Image.asset(
+                'assets/images/backgrounds/earth collab.png',
+                width: 300,
               ),
-            )
+              Text(
+                "Welcome to TradEco",
+                style: GoogleFonts.robotoSlab(
+                  textStyle: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              Text(
+                "Transform Waste into DIY Wonders:",
+                style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
+              Text(
+                "Trade, Creative, Elevate",
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: CustomTheme.color.base1,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 76),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 252,
+                    height: 44,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          view = 1;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomTheme.color.base1,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Text("Register"),
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  SizedBox(
+                    width: 252,
+                    height: 44,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          view = 0;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: CustomTheme.color.base1,
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Text("Login"),
+                    ),
+                  ),
+                  Text(
+                    "or",
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(fontWeight: FontWeight.w300),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 252,
+                    height: 44,
+                    child: SignInButton(
+                      Buttons.google,
+                      onPressed: () {},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ],
     );
   }
 
-  Widget regisView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 116,
-          height: 114,
-          margin: EdgeInsets.only(bottom: 77),
-          decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-        ),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: "Name",
+  Widget loginView() {
+    return Padding(
+      padding: const EdgeInsets.all(45),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 170,
+            height: 173,
+            margin: const EdgeInsets.only(bottom: 27),
+            child:
+                Image.asset("assets/images/logos/tradeco logo with name.png"),
           ),
-        ),
-        const SizedBox(height: 18),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: "Email",
-          ),
-        ),
-        const SizedBox(height: 18),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: "Password",
-          ),
-        ),
-        const SizedBox(height: 18),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: "Confirm Password",
-          ),
-        ),
-        const SizedBox(height: 25),
-        ElevatedButton(onPressed: () {}, child: Text("Register")),
-        const SizedBox(height: 18),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Already have an account? "),
-            InkWell(
-              onTap: () {
-                print('tap');
-              },
-              child: const Text(
-                "Login Here",
-                style: TextStyle(color: Colors.blue),
+          Text(
+            "Login",
+            style: GoogleFonts.robotoSlab(
+              textStyle: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.normal,
               ),
-            )
+            ),
+          ),
+          const SizedBox(height: 20),
+          const TextField(
+            decoration: InputDecoration(
+              labelText: "Email",
+            ),
+          ),
+          const SizedBox(height: 18),
+          const TextField(
+            decoration: InputDecoration(
+              labelText: "Password",
+            ),
+          ),
+          const SizedBox(height: 25),
+          SizedBox(
+            width: 252,
+            height: 44,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MainPage(cam: widget.cam),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: CustomTheme.color.base1,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: const Text("Login"),
+            ),
+          ),
+          const SizedBox(height: 18),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Don't have any account? "),
+              InkWell(
+                onTap: () {
+                  print('tap');
+                  setState(() {
+                    view = 1;
+                  });
+                },
+                child: Text(
+                  "Register Here",
+                  style: TextStyle(color: CustomTheme.color.base1),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 18),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 0.25),
+                  ),
+                ),
+              ),
+              const Text("  Or login with  "),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 0.25),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          SizedBox(
+            width: 252,
+            height: 44,
+            child: SignInButton(
+              Buttons.google,
+              onPressed: () {},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget regisView() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 45,
+          right: 45,
+          top: 100,
+          bottom: 20,
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: 170,
+              height: 173,
+              margin: const EdgeInsets.only(bottom: 27),
+              child:
+                  Image.asset("assets/images/logos/tradeco logo with name.png"),
+            ),
+            Text(
+              "Register",
+              style: GoogleFonts.robotoSlab(
+                textStyle: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            const TextField(
+              decoration: InputDecoration(
+                labelText: "Name",
+              ),
+            ),
+            const SizedBox(height: 18),
+            const TextField(
+              decoration: InputDecoration(
+                labelText: "Email",
+              ),
+            ),
+            const SizedBox(height: 18),
+            const TextField(
+              decoration: InputDecoration(
+                labelText: "Password",
+              ),
+            ),
+            const SizedBox(height: 18),
+            const TextField(
+              decoration: InputDecoration(
+                labelText: "Confirm Password",
+              ),
+            ),
+            const SizedBox(height: 25),
+            SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: CustomTheme.color.base1,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: const Text("Register"),
+              ),
+            ),
+            const SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Already have an account? ",
+                  style: GoogleFonts.lato(),
+                ),
+                InkWell(
+                  onTap: () {
+                    print('tap');
+                    setState(() {
+                      view = 0;
+                    });
+                  },
+                  child: Text(
+                    "Login Here",
+                    style: TextStyle(color: CustomTheme.color.base1),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 }

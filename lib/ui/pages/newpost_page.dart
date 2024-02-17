@@ -40,15 +40,15 @@ class _NewPostPageState extends State<NewPostPage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            TextField(
+            const TextField(
               decoration: InputDecoration(label: Text("Write your title")),
               keyboardType: TextInputType.multiline,
               maxLines: null,
             ),
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 label: Text("Write your descriptions"),
               ),
@@ -69,13 +69,15 @@ class _NewPostPageState extends State<NewPostPage> {
                         height: 300,
                       ),
                     )
-                  : Text(""),
+                  : const Text(""),
             ),
             ElevatedButton(
               onPressed: () {
                 getImage(ImageSource.gallery);
               },
-              child: image != null ? Text("Change image") : Text("Add image"),
+              child: image != null
+                  ? const Text("Change image")
+                  : const Text("Add image"),
             ),
           ],
         ),
