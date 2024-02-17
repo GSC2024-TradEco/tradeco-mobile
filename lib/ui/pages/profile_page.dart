@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zero_waste_application/ui/pages/auth_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -37,7 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 17),
               Text(
-                "aldifahluzi",
+                FirebaseAuth.instance.currentUser?.displayName ?? '',
                 style: GoogleFonts.robotoSlab(
                   textStyle: TextStyle(
                     fontSize: 25,
@@ -115,7 +117,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => AuthPage()),
+                        (Route<dynamic> route) =>
+                            false, // This line prevents users from navigating back to the previous page
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

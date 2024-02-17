@@ -1,15 +1,14 @@
-import 'package:camera/camera.dart';
+// ignore_for_file: unnecessary_null_comparison, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sign_in_button/sign_in_button.dart';
-import 'package:zero_waste_application/ui/pages/main_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zero_waste_application/controllers/authentication.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({super.key, required this.cam});
-  final CameraDescription cam;
+  const AuthPage({super.key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -24,7 +23,6 @@ class _AuthPageState extends State<AuthPage> {
   bool passwordsMatch = true;
 
   AuthController authController = AuthController();
-  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +187,7 @@ class _AuthPageState extends State<AuthPage> {
               String email = emailController.text;
               String password = passwordController.text;
               try {
-                UserCredential user = await _auth.signInWithEmailAndPassword(
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
