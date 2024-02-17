@@ -27,11 +27,16 @@ class _AuthPageState extends State<AuthPage> {
   AuthController authController = AuthController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
-  void initState() async {
-    // TODO: implement initState
+  void initState() {
     super.initState();
+    setupCamera();
+  }
+
+  setupCamera() async {
     try {
-      cameras = await availableCameras();
+      cameras = await availableCameras().whenComplete(() {
+        setState(() {});
+      });
     } on CameraException catch (e) {
       print("${e.code} ${e.description}");
     } catch (e) {
