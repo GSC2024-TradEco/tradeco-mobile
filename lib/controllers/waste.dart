@@ -5,7 +5,7 @@ import 'package:zero_waste_application/models/user_waste.dart';
 import 'package:zero_waste_application/models/project.dart';
 
 class WasteController {
-  Future<List<Waste>?> getAllWastes(String token) async {
+  Future<List<dynamic>?> getAllWastes(String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.wasteEndpoints.findAll);
 
     try {
@@ -18,10 +18,9 @@ class WasteController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = json.decode(response.body);
-        List<Waste> wastes =
-            jsonResponse.map((json) => Waste.fromJson(json)).toList();
-        return wastes;
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        List<dynamic> data = jsonResponse['data'];
+        return data;
       }
       return null;
     } catch (e) {
@@ -30,9 +29,10 @@ class WasteController {
     }
   }
 
-  Future<Waste?> createOneWaste(String waste, String token) async {
+  Future<Map<String, dynamic>?> createOneWaste(
+      String waste, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.wasteEndpoints.createOne);
-    Map<String, dynamic> body = {'waste ': waste};
+    Map<String, dynamic> body = {'waste': waste};
 
     try {
       final http.Response response = await http.post(
@@ -43,10 +43,10 @@ class WasteController {
           'Authorization': 'Bearer $token'
         },
       );
-
+      print(response.body);
       if (response.statusCode == 201) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
-        Waste waste = Waste.fromJson(jsonResponse['data']);
+        Map<String, dynamic> waste = jsonResponse['data'];
         return waste;
       }
       return null;
