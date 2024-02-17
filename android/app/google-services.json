@@ -12,7 +12,20 @@
           "package_name": "com.example.zero_waste_application"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "249258638873-6cptkp3c8sbut9k9a031mp9bj3umhmvd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zero_waste_application",
+            "certificate_hash": "9ec6019895977675cfdb5e88fa15c8c2d1c4d8c3"
+          }
+        },
+        {
+          "client_id": "249258638873-2j3ndovmepan6bt13np91gs7vv677tcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDh4VvzhB8q_E5xjGcE9BEK62u6NHpL1g8"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "249258638873-2j3ndovmepan6bt13np91gs7vv677tcj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "249258638873-1dk6vavkbdkegh5d14hgruht9ehpsm0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zeroWasteApplication.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }
