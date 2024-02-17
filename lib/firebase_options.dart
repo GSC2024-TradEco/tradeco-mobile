@@ -67,6 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '249258638873',
     projectId: 'gsc2024-tradeco',
     storageBucket: 'gsc2024-tradeco.appspot.com',
+    androidClientId: '249258638873-6cptkp3c8sbut9k9a031mp9bj3umhmvd.apps.googleusercontent.com',
+    iosClientId: '249258638873-cke1q2q4j8pbr92r98e7hloh42p1i6su.apps.googleusercontent.com',
     iosBundleId: 'com.example.zeroWasteApplication',
   );
 
@@ -76,6 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '249258638873',
     projectId: 'gsc2024-tradeco',
     storageBucket: 'gsc2024-tradeco.appspot.com',
+    androidClientId: '249258638873-6cptkp3c8sbut9k9a031mp9bj3umhmvd.apps.googleusercontent.com',
+    iosClientId: '249258638873-1dk6vavkbdkegh5d14hgruht9ehpsm0k.apps.googleusercontent.com',
     iosBundleId: 'com.example.zeroWasteApplication.RunnerTests',
   );
 }

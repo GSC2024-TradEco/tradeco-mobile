@@ -1,11 +1,11 @@
-// ignore_for_file: unnecessary_null_comparison, prefer_const_constructors
-
+import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sign_in_button/sign_in_button.dart';
-import 'package:zero_waste_application/ui/styles/custom_theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zero_waste_application/controllers/authentication.dart';
+import 'package:zero_waste_application/ui/pages/main_page.dart';
+import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -15,14 +15,29 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  int view = 0;
+  int? view;
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  bool passwordsMatch = true;
+  bool passwordMatch = false;
+  bool isLoading = false;
+  List<CameraDescription> cameras = [];
 
   AuthController authController = AuthController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  @override
+  void initState() async {
+    // TODO: implement initState
+    super.initState();
+    try {
+      cameras = await availableCameras();
+    } on CameraException catch (e) {
+      print("${e.code} ${e.description}");
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +45,16 @@ class _AuthPageState extends State<AuthPage> {
       resizeToAvoidBottomInset: view == 0 ? false : true,
       body: Container(
         padding: const EdgeInsets.all(8),
-        child: view == null
-            ? landingView()
-            : view == 0
-                ? loginView()
-                : regisView(),
+        child: Stack(children: [
+          isLoading
+              ? Expanded(child: Center(child: CircularProgressIndicator()))
+              : SizedBox(),
+          view == null
+              ? landingView()
+              : view == 0
+                  ? loginView()
+                  : regisView(),
+        ]),
       ),
     );
   }
@@ -158,151 +178,278 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Widget loginView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 116,
-          height: 114,
-          margin: EdgeInsets.only(bottom: 77),
-          decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-        ),
-        TextField(
-          controller: emailController,
-          decoration: InputDecoration(
-            labelText: "Email",
+    return Padding(
+      padding: const EdgeInsets.all(45),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 170,
+            height: 173,
+            margin: const EdgeInsets.only(bottom: 27),
+            child:
+                Image.asset("assets/images/logos/tradeco logo with name.png"),
           ),
-        ),
-        const SizedBox(height: 18),
-        TextField(
-          controller: passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: "Password",
-          ),
-        ),
-        const SizedBox(height: 25),
-        ElevatedButton(
-            onPressed: () async {
-              String email = emailController.text;
-              String password = passwordController.text;
-              try {
-                await FirebaseAuth.instance.signInWithEmailAndPassword(
-                  email: email,
-                  password: password,
-                );
-              } catch (e) {
-                // An error occurred, handle it accordingly
-                print('Login failed: $e');
-                // You can also show an error message to the user
-              }
-            },
-            child: Text("Login")),
-        const SizedBox(height: 18),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Don't have any account? "),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  view = 1;
-                  nameController.text = "";
-                  emailController.text = "";
-                  passwordController.text = "";
-                  confirmPasswordController.text = "";
-                });
-              },
-              child: const Text(
-                "Register Here",
-                style: TextStyle(color: Colors.blue),
+          Text(
+            "Login",
+            style: GoogleFonts.robotoSlab(
+              textStyle: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.normal,
               ),
-            )
-          ],
-        ),
-      ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          TextField(
+            controller: emailController,
+            decoration: const InputDecoration(
+              labelText: "Email",
+            ),
+          ),
+          const SizedBox(height: 18),
+          TextField(
+            controller: passwordController,
+            decoration: const InputDecoration(
+              labelText: "Password",
+            ),
+          ),
+          const SizedBox(height: 25),
+          SizedBox(
+            width: 252,
+            height: 44,
+            child: ElevatedButton(
+              onPressed: () async {
+                String email = emailController.text;
+                String password = passwordController.text;
+                setState(() {
+                  isLoading = true;
+                });
+                try {
+                  UserCredential user = await _auth.signInWithEmailAndPassword(
+                    email: email,
+                    password: password,
+                  );
+                  print(user);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainPage(cam: cameras.first),
+                    ),
+                  );
+                  setState(() {
+                    isLoading = false;
+                  });
+                } catch (e) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  print("Login failed: $e");
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: CustomTheme.color.base1,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              child: const Text("Login"),
+            ),
+          ),
+          const SizedBox(height: 18),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Don't have any account? "),
+              InkWell(
+                onTap: () {
+                  print('tap');
+                  setState(() {
+                    nameController.text = "";
+                    emailController.text = "";
+                    passwordController.text = "";
+                    confirmPasswordController.text = "";
+                    view = 1;
+                  });
+                },
+                child: Text(
+                  "Register Here",
+                  style: TextStyle(color: CustomTheme.color.base1),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 18),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 0.25),
+                  ),
+                ),
+              ),
+              const Text("  Or login with  "),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 0.25),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          SizedBox(
+            width: 252,
+            height: 44,
+            child: SignInButton(
+              Buttons.google,
+              onPressed: () {},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget regisView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 116,
-          height: 114,
-          margin: EdgeInsets.only(bottom: 77),
-          decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 45,
+          right: 45,
+          top: 100,
+          bottom: 20,
         ),
-        TextField(
-          controller: nameController,
-          decoration: InputDecoration(
-            labelText: "Name",
-          ),
-        ),
-        const SizedBox(height: 18),
-        TextField(
-          controller: emailController,
-          decoration: InputDecoration(
-            labelText: "Email",
-          ),
-        ),
-        const SizedBox(height: 18),
-        TextField(
-          controller: passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: "Password",
-          ),
-          onChanged: (value) {
-            setState(() {
-              passwordsMatch = (value == confirmPasswordController.text);
-            });
-          },
-        ),
-        const SizedBox(height: 18),
-        TextField(
-          controller: confirmPasswordController,
-          obscureText: true,
-          decoration: InputDecoration(
-              labelText: "Confirm Password",
-              errorText: passwordsMatch ? null : "Passwords do not match"),
-          onChanged: (value) {
-            setState(() {
-              passwordsMatch = (value == passwordController.text);
-            });
-          },
-        ),
-        const SizedBox(height: 25),
-        ElevatedButton(
-            onPressed: () {
-              authController.register(nameController.text, emailController.text,
-                  passwordController.text);
-            },
-            child: Text("Register")),
-        const SizedBox(height: 18),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           children: [
-            Text("Already have an account? "),
-            InkWell(
-              onTap: () {
+            Container(
+              width: 170,
+              height: 173,
+              margin: const EdgeInsets.only(bottom: 27),
+              child:
+                  Image.asset("assets/images/logos/tradeco logo with name.png"),
+            ),
+            Text(
+              "Register",
+              style: GoogleFonts.robotoSlab(
+                textStyle: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: "Name",
+              ),
+            ),
+            const SizedBox(height: 18),
+            TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                labelText: "Email",
+              ),
+            ),
+            const SizedBox(height: 18),
+            TextField(
+              controller: passwordController,
+              decoration: const InputDecoration(
+                labelText: "Password",
+              ),
+              onChanged: (value) {
                 setState(() {
-                  view = 0;
-                  nameController.text = "";
-                  emailController.text = "";
-                  passwordController.text = "";
-                  confirmPasswordController.text = "";
+                  passwordMatch = (value == confirmPasswordController.text);
                 });
               },
-              child: const Text(
-                "Login Here",
-                style: TextStyle(color: Colors.blue),
+            ),
+            const SizedBox(height: 18),
+            TextField(
+              controller: confirmPasswordController,
+              decoration: const InputDecoration(
+                labelText: "Confirm Password",
               ),
-            )
+              onChanged: (value) {
+                setState(() {
+                  passwordMatch = (value == passwordController.text);
+                });
+              },
+            ),
+            const SizedBox(height: 25),
+            SizedBox(
+              width: double.infinity,
+              height: 44,
+              child: ElevatedButton(
+                onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  bool success = await authController.register(
+                    nameController.text,
+                    emailController.text,
+                    passwordController.text,
+                  );
+                  setState(() {
+                    isLoading = false;
+                  });
+
+                  if (success) {
+                    setState(() {
+                      nameController.text = "";
+                      emailController.text = "";
+                      passwordController.text = "";
+                      confirmPasswordController.text = "";
+                      view = 0;
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: CustomTheme.color.base1,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                child: const Text("Register"),
+              ),
+            ),
+            const SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Already have an account? ",
+                  style: GoogleFonts.lato(),
+                ),
+                InkWell(
+                  onTap: () {
+                    print('tap');
+                    setState(() {
+                      nameController.text = "";
+                      emailController.text = "";
+                      passwordController.text = "";
+                      confirmPasswordController.text = "";
+                      view = 0;
+                    });
+                  },
+                  child: Text(
+                    "Login Here",
+                    style: TextStyle(color: CustomTheme.color.base1),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
