@@ -60,11 +60,10 @@ class _AuthPageState extends State<AuthPage> {
               String email = emailController.text;
               String password = passwordController.text;
               try {
-                await _auth.signInWithEmailAndPassword(
+                UserCredential user = await _auth.signInWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                // User successfully logged in, you can navigate to another screen
               } catch (e) {
                 // An error occurred, handle it accordingly
                 print('Login failed: $e');
@@ -79,7 +78,13 @@ class _AuthPageState extends State<AuthPage> {
             Text("Don't have any account? "),
             InkWell(
               onTap: () {
-                print('tap');
+                setState(() {
+                  view = 1;
+                  nameController.text = "";
+                  emailController.text = "";
+                  passwordController.text = "";
+                  confirmPasswordController.text = "";
+                });
               },
               child: const Text(
                 "Register Here",
@@ -155,7 +160,13 @@ class _AuthPageState extends State<AuthPage> {
             Text("Already have an account? "),
             InkWell(
               onTap: () {
-                print('tap');
+                setState(() {
+                  view = 0;
+                  nameController.text = "";
+                  emailController.text = "";
+                  passwordController.text = "";
+                  confirmPasswordController.text = "";
+                });
               },
               child: const Text(
                 "Login Here",

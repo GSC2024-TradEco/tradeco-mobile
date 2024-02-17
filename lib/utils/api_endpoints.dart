@@ -1,7 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
 class API {
-  static const String baseUrl = 'https://tradeco-api-wyk7a4jpva-et.a.run.app';
+  static const String baseUrl =
+      'https://tradeco-api-wyk7a4jpva-et.a.run.app/api/v1';
 
   static _AuthEndpoints authEndpoints = _AuthEndpoints();
   static _UserEndpoints userEndpoints = _UserEndpoints();
