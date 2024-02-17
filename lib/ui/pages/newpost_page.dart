@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zero_waste_application/controllers/post.dart';
 
 class NewPostPage extends StatefulWidget {
   const NewPostPage({super.key});
@@ -11,6 +12,12 @@ class NewPostPage extends StatefulWidget {
 }
 
 class _NewPostPageState extends State<NewPostPage> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  PostController postController = PostController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final ImagePicker imagePicker = ImagePicker();
   XFile? image;
 
@@ -29,13 +36,28 @@ class _NewPostPageState extends State<NewPostPage> {
           children: [
             Expanded(child: Container()),
             ElevatedButton(
-                onPressed: () {},
-                child: const Row(
-                  children: [
-                    Text("POST"),
-                    Icon(Icons.post_add),
-                  ],
-                )),
+              onPressed: () async {
+                String title = titleController.text;
+                String description = descriptionController.text;
+                String? token = await _auth.currentUser!.getIdToken(true);
+                Map<String, dynamic>? post = await postController.createOnePost(
+                    title, description, token!);
+                if (post != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Post created successfully'),
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Row(
+                children: [
+                  Text("POST"),
+                  Icon(Icons.post_add),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -43,13 +65,16 @@ class _NewPostPageState extends State<NewPostPage> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            const TextField(
-              decoration: InputDecoration(label: Text("Write your title")),
+            TextField(
+              controller: titleController,
+              decoration:
+                  const InputDecoration(label: Text("Write your title")),
               keyboardType: TextInputType.multiline,
               maxLines: null,
             ),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: descriptionController,
+              decoration: const InputDecoration(
                 label: Text("Write your descriptions"),
               ),
               keyboardType: TextInputType.multiline,
