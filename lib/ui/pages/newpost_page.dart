@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zero_waste_application/controllers/post.dart';
@@ -33,6 +34,7 @@ class _NewPostPageState extends State<NewPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Row(
@@ -105,19 +107,20 @@ class _NewPostPageState extends State<NewPostPage> {
               maxLines: null,
             ),
             const SizedBox(height: 7),
-            TextField(
-              controller: descriptionController,
-              decoration: InputDecoration(
-                label: const Text("Write your descriptions"),
-                border: UnderlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+            Expanded(
+              child: TextField(
+                controller: descriptionController,
+                decoration: InputDecoration(
+                  label: const Text("Write your descriptions"),
+                  border: UnderlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  fillColor: CustomTheme.color.background1,
+                  filled: true,
                 ),
-                fillColor: CustomTheme.color.background1,
-                filled: true,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
               ),
-              keyboardType: TextInputType.multiline,
-              minLines: 15,
-              maxLines: null,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
