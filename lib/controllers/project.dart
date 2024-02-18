@@ -4,7 +4,7 @@ import 'package:zero_waste_application/utils/api_endpoints.dart';
 import 'package:zero_waste_application/models/project.dart';
 
 class ProjectController {
-  Future<List<Project>?> getAllProjects(String token) async {
+  Future<List<dynamic>?> getAllProjects(String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.projectEndpoints.findAll);
 
     try {
@@ -29,23 +29,23 @@ class ProjectController {
     }
   }
 
-  Future<Project?> getOneProject(int projectId, String token) async {
+  Future<Map<String, dynamic>?> getOneProject(
+      int projectId, String token) async {
     final Uri uri =
         Uri.parse(API.baseUrl + API.projectEndpoints.findOne(projectId));
-
+    print(token);
     try {
-      final http.Response response = await http.post(
+      final http.Response response = await http.get(
         uri,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
         },
       );
-
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
-        Project project = Project.fromJson(jsonResponse['data']);
-        return project;
+        Map<String, dynamic> data = jsonResponse['data'];
+        return data;
       }
       return null;
     } catch (e) {

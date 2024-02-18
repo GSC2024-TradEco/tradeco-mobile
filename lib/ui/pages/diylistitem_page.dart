@@ -65,7 +65,7 @@ class _DiyListItemState extends State<DiyListItem> {
           children: [
             const SizedBox(height: 20),
             Text(
-              "Item Found",
+              "My Wastes",
               style: GoogleFonts.lato(
                 textStyle: TextStyle(
                   fontSize: 18,
@@ -157,12 +157,9 @@ class _DiyListItemState extends State<DiyListItem> {
                     onPressed: () async {
                       String? token = await FirebaseAuth.instance.currentUser!
                           .getIdToken(true);
-                      print(token);
                       Map<String, dynamic>? waste =
                           await wasteController.createOneWaste(
                               wasteNameController.text.trim(), token!);
-                      print(waste);
-
                       if (waste != null) {
                         setState(() {
                           wasteList.add(waste);
@@ -211,17 +208,18 @@ class _DiyListItemState extends State<DiyListItem> {
                 foregroundColor: Colors.black,
               ),
               child: SizedBox(
-                width: 148,
+                width: 158,
                 height: 44,
                 child: Center(
                   child: Text(
-                    "Next",
+                    "Find Project Suggestions",
                     style: GoogleFonts.lato(
                       textStyle: TextStyle(
                         fontSize: 14,
                         fontWeight: CustomTheme.fontWeight.medium,
                       ),
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),

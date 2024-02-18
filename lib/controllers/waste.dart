@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
-import 'package:zero_waste_application/models/project.dart';
+// import 'package:zero_waste_application/models/user_waste.dart';
+// import 'package:zero_waste_application/models/project.dart';
 
 class WasteController {
   Future<List<dynamic>?> getAllWastes(String token) async {
@@ -42,7 +43,6 @@ class WasteController {
           'Authorization': 'Bearer $token'
         },
       );
-      print(response.body);
       if (response.statusCode == 201) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         Map<String, dynamic> waste = jsonResponse['data'];
@@ -78,7 +78,7 @@ class WasteController {
     }
   }
 
-  Future<List<Project>?> getProjectSuggestions(
+  Future<List<dynamic>?> getProjectSuggestions(
       List<String> wastes, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.wasteEndpoints.getSuggestion);
     final Map<String, List<String>> body = {
@@ -96,10 +96,9 @@ class WasteController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = json.decode(response.body);
-        List<Project> projects =
-            jsonResponse.map((json) => Project.fromJson(json)).toList();
-        return projects;
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        List<dynamic> data = jsonResponse['data'];
+        return data;
       }
       return null;
     } catch (e) {

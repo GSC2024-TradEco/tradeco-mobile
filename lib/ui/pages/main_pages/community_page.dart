@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:zero_waste_application/controllers/post.dart';
 
 class CommunityPage extends StatefulWidget {
-  const CommunityPage({super.key});
+  const CommunityPage({Key? key}) : super(key: key);
 
   @override
   State<CommunityPage> createState() => _CommunityPageState();
@@ -12,50 +12,43 @@ class CommunityPage extends StatefulWidget {
 
 class _CommunityPageState extends State<CommunityPage> {
   PostController postController = PostController();
-  bool onLoading = false;
-  List<Map<String, dynamic>> postList = [];
+  late Future<List<dynamic>> _fetchPostsFuture;
 
   @override
   void initState() {
     super.initState();
-    _fetchPosts();
+    _fetchPostsFuture = _fetchPosts();
   }
 
-  Future<void> _fetchPosts() async {
+  Future<List<dynamic>> _fetchPosts() async {
     try {
-      setState(() {
-        onLoading = true;
-      });
       String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
       List<dynamic>? posts = await postController.getAllPosts(token!);
-      setState(() {
-        if (posts != null) {
-          for (dynamic post in posts) {
-            postList.add(post);
-          }
-        }
-        onLoading = false;
-      });
+      return posts ?? [];
     } catch (e) {
-      setState(() {
-        onLoading = false;
-      });
       print("Error fetching posts: $e");
+      return [];
     }
   }
 
   String _formatDateTime(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
-    String formattedDateTime = DateFormat.yMMMMd().add_jms().format(dateTime);
-    return formattedDateTime;
+    return DateFormat.yMMMMd().add_jms().format(dateTime);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: onLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.separated(
+    return Scaffold(
+      body: FutureBuilder(
+        future: _fetchPostsFuture,
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            List<dynamic> postList = snapshot.data ?? [];
+            return ListView.separated(
               itemBuilder: (context, index) {
                 final post = postList[index];
                 final user = post['User'];
@@ -128,7 +121,10 @@ class _CommunityPageState extends State<CommunityPage> {
                 return const SizedBox(height: 4);
               },
               itemCount: postList.length,
-            ),
+            );
+          }
+        },
+      ),
     );
   }
 }

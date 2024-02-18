@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zero_waste_application/controllers/waste.dart';
 import 'package:zero_waste_application/ui/pages/diydetailproject_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
@@ -13,6 +15,43 @@ class DiyListProject extends StatefulWidget {
 }
 
 class _DiyListProjectState extends State<DiyListProject> {
+  WasteController wasteController = WasteController();
+  bool onLoading = false;
+  List<Map<String, dynamic>> projectSuggestionList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProjectSuggestions();
+  }
+
+  Future<void> _fetchProjectSuggestions() async {
+    try {
+      setState(() {
+        onLoading = true;
+      });
+      String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
+      List<dynamic>? projectSuggestions =
+          await wasteController.getProjectSuggestions(['Cardboard'], token!);
+      print('project ${projectSuggestions}');
+      setState(() {
+        if (projectSuggestions != null) {
+          for (dynamic projectSuggestion in projectSuggestions) {
+            projectSuggestionList.add(projectSuggestion);
+          }
+        }
+        print('success');
+        print(projectSuggestionList);
+        onLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        onLoading = false;
+      });
+      print("Error fetching wastes: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,14 +85,16 @@ class _DiyListProjectState extends State<DiyListProject> {
                 crossAxisCount: 2,
                 childAspectRatio: (1 / 1.25),
                 children: List.generate(
-                  10,
+                  projectSuggestionList.length,
                   (index) {
+                    final projectSuggestion = projectSuggestionList[index];
                     return InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (builder) => DiyDetailProject(),
+                            builder: (builder) => DiyDetailProject(
+                                projectId: projectSuggestion['id']),
                           ),
                         );
                       },
@@ -74,15 +115,21 @@ class _DiyListProjectState extends State<DiyListProject> {
                             Expanded(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: Image.asset(
-                                  "assets/images/backgrounds/recycle tin.webp",
-                                  fit: BoxFit.cover,
-                                ),
+                                child: projectSuggestion['image'] != null
+                                    ? Image.asset(
+                                        projectSuggestion['image'],
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        "assets/images/backgrounds/recycle tin.webp",
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              "Recycle Cookie Tins",
+                              projectSuggestion[
+                                  'title'], // Use name from project suggestion
                               style: GoogleFonts.robotoSlab(
                                 textStyle: TextStyle(
                                   fontSize: 12,

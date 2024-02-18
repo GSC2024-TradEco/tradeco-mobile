@@ -1,21 +1,55 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:zero_waste_application/controllers/project.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class DiyDetailProject extends StatefulWidget {
-  const DiyDetailProject({super.key});
+  const DiyDetailProject({Key? key, required this.projectId}) : super(key: key);
+  final int projectId;
 
   @override
   State<DiyDetailProject> createState() => _DiyDetailProjectState();
 }
 
 class _DiyDetailProjectState extends State<DiyDetailProject> {
+  ProjectController projectController = ProjectController();
+  bool onLoading = false;
+  Map<String, dynamic>? project;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProject();
+  }
+
+  Future<void> _fetchProject() async {
+    try {
+      setState(() {
+        onLoading = true;
+      });
+      String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
+      Map<String, dynamic>? fetchedProject =
+          await projectController.getOneProject(widget.projectId, token!);
+      setState(() {
+        project = fetchedProject;
+        onLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        onLoading = false;
+      });
+      print("Error: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Title"),
+        title:
+            Text(project?['title'] ?? 'Title'), // Set the title of the app bar
         backgroundColor: Colors.transparent,
       ),
       body: Container(
@@ -35,7 +69,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                 color: Colors.grey.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 2,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
             image: const DecorationImage(
@@ -51,58 +85,70 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  "assets/images/backgrounds/Yarn-Love-Sign_10-1.jpg.webp",
+                  project?['image'] ??
+                      "assets/images/backgrounds/Yarn-Love-Sign_10-1.jpg.webp",
                 ),
               ),
               const SizedBox(height: 26),
               Text(
-                "If you are looking for a fun project to do while sitting on the sofa, this yarn art is it. Make yarn wall art out of any word using cardboard and simple wrapping!",
+                project?['description'] ?? "No description available",
               ),
               const SizedBox(height: 13),
               Text(
-                "What you’ll need: Piece of cardboard, scissors/X-acto knife, marker, tape, yarn",
+                "What you’ll need: ${project?['materials'] ?? 'No materials provided'}",
               ),
-              const SizedBox(height: 13),
-              Text(
-                "Warning! You are missing a few items to build this, try contacting some of the users below to get them:",
-              ),
-              const SizedBox(height: 13),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (build, context) {
-                    return Container(
-                      height: 60,
-                      width: double.infinity,
-                      padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        color: CustomTheme.color.base2,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 1,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+              const SizedBox(height: 100),
+              if (project?['missingMaterials'] != null)
+                Column(
+                  children: [
+                    Text(
+                      "Warning! You are missing a few items to build this, try contacting some of the users below to get them:",
+                    ),
+                    const SizedBox(height: 13),
+                    Expanded(
+                      child: ListView.separated(
+                        itemBuilder: (build, index) {
+                          var user = project!['usersWithMissingMaterials']
+                              [index]['User'];
+                          var missingMaterial =
+                              project!['missingMaterials'][index]
+                                  ['name'];
+                          return Container(
+                            height: 60,
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(15),
+                            margin: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              color: CustomTheme.color.base2,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 1,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                    "$missingMaterial by ${user['displayName'] ?? 'Unknown'}"),
+                                Expanded(child: Container()),
+                                const Icon(Icons.circle),
+                                const Icon(Icons.circle),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (build, context) {
+                          return const SizedBox(height: 7);
+                        },
+                        itemCount: project!['usersWithMissingMaterials'].length,
                       ),
-                      child: Row(
-                        children: [
-                          Text("Yarn"),
-                          Expanded(child: Container()),
-                          Icon(Icons.circle),
-                          Icon(Icons.circle),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (build, context) {
-                    return const SizedBox(height: 7);
-                  },
-                  itemCount: 5,
+                    ),
+                  ],
                 ),
-              ),
             ],
           ),
         ),
