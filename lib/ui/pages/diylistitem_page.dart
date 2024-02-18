@@ -193,10 +193,14 @@ class _DiyListItemState extends State<DiyListItem> {
             ),
             ElevatedButton(
               onPressed: () {
+                List<String> wasteNames = wasteList
+                    .map((waste) => waste['name'] as String)
+                    .toList(); // Convert elements to String
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (builder) => const DiyListProject(),
+                    builder: (builder) => DiyListProject(
+                        wasteNames: wasteNames), // Pass the list of waste names
                   ),
                 );
               },

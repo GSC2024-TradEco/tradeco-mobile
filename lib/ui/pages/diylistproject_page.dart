@@ -8,7 +8,8 @@ import 'package:zero_waste_application/ui/pages/diydetailproject_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class DiyListProject extends StatefulWidget {
-  const DiyListProject({super.key});
+  final List<String> wasteNames; // Accept list of waste names
+  const DiyListProject({Key? key, required this.wasteNames}) : super(key: key);
 
   @override
   State<DiyListProject> createState() => _DiyListProjectState();
