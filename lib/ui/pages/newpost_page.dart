@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zero_waste_application/controllers/post.dart';
+import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class NewPostPage extends StatefulWidget {
   const NewPostPage({super.key});
@@ -32,8 +34,18 @@ class _NewPostPageState extends State<NewPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Row(
           children: [
+            Text(
+              "Create Post",
+              style: GoogleFonts.robotoSlab(
+                textStyle: TextStyle(
+                  fontSize: 25,
+                  fontWeight: CustomTheme.fontWeight.regular,
+                ),
+              ),
+            ),
             Expanded(child: Container()),
             ElevatedButton(
               onPressed: () async {
@@ -51,6 +63,13 @@ class _NewPostPageState extends State<NewPostPage> {
                   Navigator.of(context).pop();
                 }
               },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                backgroundColor: CustomTheme.color.base2,
+                foregroundColor: Colors.black,
+              ),
               child: const Row(
                 children: [
                   Text("POST"),
@@ -63,19 +82,38 @@ class _NewPostPageState extends State<NewPostPage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: CustomTheme.color.gradientBackground1,
+          ),
+        ),
         child: Column(
           children: [
             TextField(
               controller: titleController,
-              decoration:
-                  const InputDecoration(label: Text("Write your title")),
+              decoration: InputDecoration(
+                label: const Text("Write your title"),
+                border: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                fillColor: CustomTheme.color.background1,
+                filled: true,
+              ),
               keyboardType: TextInputType.multiline,
               maxLines: null,
             ),
+            const SizedBox(height: 7),
             TextField(
               controller: descriptionController,
-              decoration: const InputDecoration(
-                label: Text("Write your descriptions"),
+              decoration: InputDecoration(
+                label: const Text("Write your descriptions"),
+                border: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                fillColor: CustomTheme.color.background1,
+                filled: true,
               ),
               keyboardType: TextInputType.multiline,
               minLines: 15,
@@ -100,9 +138,30 @@ class _NewPostPageState extends State<NewPostPage> {
               onPressed: () {
                 getImage(ImageSource.gallery);
               },
-              child: image != null
-                  ? const Text("Change image")
-                  : const Text("Add image"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: CustomTheme.color.base2,
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: SizedBox(
+                width: 100,
+                height: 45,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      "assets/images/icons/upload-photo.png",
+                      height: 24,
+                      width: 24,
+                    ),
+                    image != null
+                        ? const Text("Change image")
+                        : const Text("Add image"),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
