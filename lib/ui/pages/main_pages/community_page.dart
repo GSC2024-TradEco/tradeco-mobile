@@ -52,8 +52,8 @@ class _CommunityPageState extends State<CommunityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: onLoading
+    return Container(
+      child: onLoading
           ? Center(child: CircularProgressIndicator())
           : ListView.separated(
               itemBuilder: (context, index) {
