@@ -48,55 +48,55 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 17),
-              Row(
-                children: [
-                  const SizedBox(width: 23),
-                  Text(
-                    "My Contacts",
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                        fontSize: 18,
-                        fontWeight: CustomTheme.fontWeight.regular,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 70,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 30,
-                      ),
-                      decoration:
-                          BoxDecoration(color: CustomTheme.color.background2),
-                      child: Row(
-                        children: [
-                          Icon(Icons.contact_emergency),
-                          SizedBox(width: 5),
-                          Text(
-                            "socialmedia username",
-                            style: GoogleFonts.lato(
-                              textStyle: TextStyle(
-                                fontSize: 18,
-                                fontWeight: CustomTheme.fontWeight.light,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 3);
-                  },
-                  itemCount: 10,
-                ),
-              ),
+              // Row(
+              //   children: [
+              //     const SizedBox(width: 23),
+              //     Text(
+              //       "My Contacts",
+              //       style: GoogleFonts.lato(
+              //         textStyle: TextStyle(
+              //           fontSize: 18,
+              //           fontWeight: CustomTheme.fontWeight.regular,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(height: 16),
+              // Expanded(
+              //   child: ListView.separated(
+              //     itemBuilder: (context, index) {
+              //       return Container(
+              //         height: 70,
+              //         padding: const EdgeInsets.symmetric(
+              //           vertical: 8,
+              //           horizontal: 30,
+              //         ),
+              //         decoration:
+              //             BoxDecoration(color: CustomTheme.color.background2),
+              //         child: Row(
+              //           children: [
+              //             Icon(Icons.contact_emergency),
+              //             SizedBox(width: 5),
+              //             Text(
+              //               "socialmedia username",
+              //               style: GoogleFonts.lato(
+              //                 textStyle: TextStyle(
+              //                   fontSize: 18,
+              //                   fontWeight: CustomTheme.fontWeight.light,
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       );
+              //     },
+              //     separatorBuilder: (context, index) {
+              //       return const SizedBox(height: 3);
+              //     },
+              //     itemCount: 10,
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

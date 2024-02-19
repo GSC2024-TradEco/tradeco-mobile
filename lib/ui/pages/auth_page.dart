@@ -214,6 +214,7 @@ class _AuthPageState extends State<AuthPage> {
           const SizedBox(height: 18),
           TextField(
             controller: passwordController,
+            obscureText: true,
             decoration: const InputDecoration(
               labelText: "Password",
             ),
@@ -367,6 +368,7 @@ class _AuthPageState extends State<AuthPage> {
             const SizedBox(height: 18),
             TextField(
               controller: passwordController,
+              obscureText: true,
               decoration: const InputDecoration(
                 labelText: "Password",
               ),
@@ -379,6 +381,7 @@ class _AuthPageState extends State<AuthPage> {
             const SizedBox(height: 18),
             TextField(
               controller: confirmPasswordController,
+              obscureText: true,
               decoration: const InputDecoration(
                 labelText: "Confirm Password",
               ),
@@ -451,6 +454,41 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                 )
               ],
+            ),
+            const SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 0.25),
+                    ),
+                  ),
+                ),
+                const Text("  Or register with  "),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 0.25),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: 252,
+              height: 44,
+              child: SignInButton(
+                Buttons.google,
+                onPressed: () {},
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
             ),
           ],
         ),
