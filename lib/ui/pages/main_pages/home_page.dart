@@ -20,16 +20,16 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          TextField(
-            decoration: InputDecoration(
-              hintText: "Search",
-              border: const UnderlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              fillColor: CustomTheme.color.background1,
-              filled: true,
-            ),
-          ),
+          // TextField(
+          //   decoration: InputDecoration(
+          //     hintText: "Search",
+          //     border: const UnderlineInputBorder(
+          //       borderRadius: BorderRadius.all(Radius.circular(10)),
+          //     ),
+          //     fillColor: CustomTheme.color.background1,
+          //     filled: true,
+          //   ),
+          // ),
           const SizedBox(height: 20),
           Container(
             height: 156,
@@ -45,64 +45,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Ongoing Project",
-                  style: GoogleFonts.robotoSlab(
-                    textStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: CustomTheme.fontWeight.regular,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "You have no ongoing projects",
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: CustomTheme.fontWeight.regular,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    widget.changePage(2);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomTheme.color.base1,
-                    foregroundColor: CustomTheme.color.background1,
-                  ),
-                  child: const Text("Start A Project"),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 21),
-          Container(
-            height: 156,
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              image: const DecorationImage(
-                image: AssetImage(
-                  "assets/images/backgrounds/Saved Project.png",
-                ),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  "Quotes Of The Day",
+                  "Tips Of The Day",
                   style: GoogleFonts.robotoSlab(
                     textStyle: TextStyle(
                       fontSize: 20,
@@ -125,6 +70,61 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 21),
+          Container(
+            height: 156,
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: const DecorationImage(
+                image: AssetImage(
+                  "assets/images/backgrounds/Saved Project.png",
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Saved Project",
+                  style: GoogleFonts.robotoSlab(
+                    textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: CustomTheme.fontWeight.regular,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "You don't have any saved projects",
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: 13,
+                            fontWeight: CustomTheme.fontWeight.regular,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    widget.changePage(2);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomTheme.color.base1,
+                    foregroundColor: CustomTheme.color.background1,
+                  ),
+                  child: const Text("Save A Project"),
                 ),
               ],
             ),

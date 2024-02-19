@@ -32,8 +32,9 @@ class _DiyListProjectState extends State<DiyListProject> {
         onLoading = true;
       });
       String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
-      List<dynamic>? projectSuggestions =
-          await wasteController.getProjectSuggestions(['Cardboard'], token!);
+      print(token);
+      List<dynamic>? projectSuggestions = await wasteController
+          .getProjectSuggestions(widget.wasteNames, token!);
       print('project ${projectSuggestions}');
       setState(() {
         if (projectSuggestions != null) {
@@ -81,71 +82,86 @@ class _DiyListProjectState extends State<DiyListProject> {
               ),
             ),
             const SizedBox(height: 16),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: (1 / 1.25),
-                children: List.generate(
-                  projectSuggestionList.length,
-                  (index) {
-                    final projectSuggestion = projectSuggestionList[index];
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => DiyDetailProject(
-                                projectId: projectSuggestion['id']),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.all(5),
-                        padding: const EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          image: const DecorationImage(
-                            image: AssetImage(
-                              "assets/images/backgrounds/Saved Project.png",
+            // Show loading indicator if onLoading is true
+            if (onLoading)
+              CircularProgressIndicator()
+            else
+            // Show message if projectSuggestionList is empty
+            if (projectSuggestionList.isEmpty)
+              Text(
+                "There are no project suggestions with your waste materials",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              )
+            else
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  childAspectRatio: (1 / 1.25),
+                  children: List.generate(
+                    projectSuggestionList.length,
+                    (index) {
+                      final projectSuggestion = projectSuggestionList[index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => DiyDetailProject(
+                                  projectId: projectSuggestion['id']),
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: projectSuggestion['image'] != null
-                                    ? Image.asset(
-                                        projectSuggestion['image'],
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        "assets/images/backgrounds/recycle tin.webp",
-                                        fit: BoxFit.cover,
-                                      ),
+                          );
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(7),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: const DecorationImage(
+                              image: AssetImage(
+                                "assets/images/backgrounds/Saved Project.png",
                               ),
+                              fit: BoxFit.fill,
                             ),
-                            const SizedBox(height: 5),
-                            Text(
-                              projectSuggestion[
-                                  'title'], // Use name from project suggestion
-                              style: GoogleFonts.robotoSlab(
-                                textStyle: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: CustomTheme.fontWeight.regular,
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: projectSuggestion['image'] != null
+                                      ? Image.asset(
+                                          projectSuggestion['image'],
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          "assets/images/backgrounds/recycle tin.webp",
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
                               ),
-                            )
-                          ],
+                              const SizedBox(height: 5),
+                              Text(
+                                projectSuggestion[
+                                    'title'], // Use name from project suggestion
+                                style: GoogleFonts.robotoSlab(
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: CustomTheme.fontWeight.regular,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),

@@ -1,7 +1,10 @@
 import 'package:camera/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zero_waste_application/controllers/project.dart';
 import 'package:zero_waste_application/ui/pages/camera_page.dart';
+import 'package:zero_waste_application/ui/pages/diydetailproject_page.dart';
 import 'package:zero_waste_application/ui/pages/diylistitem_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
@@ -13,6 +16,43 @@ class DiyPage extends StatefulWidget {
 }
 
 class _DiyPageState extends State<DiyPage> {
+  ProjectController projectController = ProjectController();
+  bool onLoading = false;
+  List<dynamic> projectList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAllProjects();
+  }
+
+  Future<void> _fetchAllProjects() async {
+    try {
+      setState(() {
+        onLoading = true;
+      });
+      String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
+      print(token);
+      List<dynamic>? projects = await projectController.getAllProjects(token!);
+      print('projects ${projects}');
+      setState(() {
+        if (projects != null) {
+          for (dynamic project in projects) {
+            projectList.add(project);
+          }
+        }
+        print('success');
+        print(projects);
+        onLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        onLoading = false;
+      });
+      print("Error fetching wastes: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -70,7 +110,7 @@ class _DiyPageState extends State<DiyPage> {
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          "Scan Items",
+                          "Scan Wastes",
                           style: GoogleFonts.lato(
                             textStyle: TextStyle(
                               fontSize: 13,
@@ -109,7 +149,7 @@ class _DiyPageState extends State<DiyPage> {
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          "My Items",
+                          "My Wastes",
                           style: GoogleFonts.lato(
                             textStyle: TextStyle(
                               fontSize: 13,
@@ -131,7 +171,7 @@ class _DiyPageState extends State<DiyPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Saved Project",
+                        "All DIY Projects",
                         style: GoogleFonts.robotoSlab(
                           textStyle: TextStyle(
                             fontSize: 20,
@@ -139,65 +179,77 @@ class _DiyPageState extends State<DiyPage> {
                           ),
                         ),
                       ),
-                      Text(
-                        "View All",
-                        style: GoogleFonts.robotoSlab(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: CustomTheme.fontWeight.semibold,
-                            color: CustomTheme.color.base1,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   Expanded(
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      childAspectRatio: (1 / 1.25),
-                      children: List.generate(
-                        10,
-                        (index) {
-                          return Container(
-                            margin: const EdgeInsets.all(5),
-                            padding: const EdgeInsets.all(7),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/backgrounds/Saved Project.png",
+                    child: onLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : projectList.isEmpty
+                            ? Text('No projects available.')
+                            : GridView.count(
+                                crossAxisCount: 2,
+                                childAspectRatio: (1 / 1.25),
+                                children: List.generate(
+                                  projectList.length,
+                                  (index) {
+                                    var project = projectList[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (builder) =>
+                                                DiyDetailProject(
+                                                    projectId: project['id']),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(7),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          image: const DecorationImage(
+                                            image: AssetImage(
+                                              "assets/images/backgrounds/Saved Project.png",
+                                            ),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.asset(
+                                                  "assets/images/backgrounds/recycle tin.webp",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              project['title'] ??
+                                                  "Untitled Project",
+                                              style: GoogleFonts.robotoSlab(
+                                                textStyle: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: CustomTheme
+                                                      .fontWeight.regular,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                fit: BoxFit.fill,
                               ),
-                            ),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(
-                                      "assets/images/backgrounds/recycle tin.webp",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  "Recycle Cookie Tins",
-                                  style: GoogleFonts.robotoSlab(
-                                    textStyle: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight:
-                                          CustomTheme.fontWeight.regular,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
                   ),
                 ],
               ),

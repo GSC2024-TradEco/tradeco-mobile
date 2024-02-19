@@ -15,12 +15,12 @@ class ProjectController {
           'Authorization': 'Bearer $token'
         },
       );
-
+      print("REPONSE");
+      print(response.body);
       if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = json.decode(response.body);
-        List<Project> projects =
-            jsonResponse.map((json) => Project.fromJson(json)).toList();
-        return projects;
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        List<dynamic> data = jsonResponse['data'];
+        return data;
       }
       return null;
     } catch (e) {

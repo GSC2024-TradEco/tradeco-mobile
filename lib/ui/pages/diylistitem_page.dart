@@ -75,7 +75,11 @@ class _DiyListItemState extends State<DiyListItem> {
             ),
             const SizedBox(height: 8),
             Expanded(
-              child: ListView.separated(
+              child: onLoading
+                  ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching
+                  : wasteList.isEmpty
+                      ? Center(child: Text('Your waste list is empty, try adding your wastes')) // Show message if the list is empty
+                      : ListView.separated(
                 itemBuilder: (context, index) {
                   final waste = wasteList[index];
                   return Container(

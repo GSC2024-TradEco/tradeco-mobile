@@ -103,11 +103,11 @@ class _CommunityPageState extends State<CommunityPage> {
                                     ? Image.network(post['image'])
                                     : const SizedBox.shrink(),
                                 const SizedBox(height: 5),
-                                const Row(
-                                  children: [
-                                    Icon(Icons.thumb_up_alt_outlined),
-                                  ],
-                                )
+                                // const Row(
+                                //   children: [
+                                //     Icon(Icons.thumb_up_alt_outlined),
+                                //   ],
+                                // )
                               ],
                             ),
                           )
