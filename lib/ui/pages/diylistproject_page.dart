@@ -133,7 +133,7 @@ class _DiyListProjectState extends State<DiyListProject> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
                                   child: projectSuggestion['image'] != null
-                                      ? Image.asset(
+                                      ? Image.network(
                                           projectSuggestion['image'],
                                           fit: BoxFit.cover,
                                         )

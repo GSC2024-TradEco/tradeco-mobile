@@ -29,6 +29,8 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
       String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
       Map<String, dynamic>? fetchedProject =
           await projectController.getOneProject(widget.projectId, token!);
+      print("FETCHED PROJECT");
+      print(fetchedProject);
       setState(() {
         project = fetchedProject;
         onLoading = false; // Set loading to false after fetching the project
@@ -45,8 +47,16 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(project?['title'] ?? 'Title'),
+        title: Text(project?['title'] ?? ''),
         backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Implement save or bookmark functionality
+            },
+            icon: Icon(Icons.bookmark_border),
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -56,11 +66,11 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
             colors: CustomTheme.color.gradientBackground1,
           ),
         ),
-        child: onLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
+        child: Stack(
+          children: [
+            Visibility(
+              visible: !onLoading, // Show the content when not loading
+              child: SingleChildScrollView(
                 child: Container(
                   margin:
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 9),
@@ -86,10 +96,9 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.asset(
-                          project?['image'] ??
-                              "assets/images/backgrounds/Yarn-Love-Sign_10-1.jpg.webp",
-                        ),
+                        child: project != null && project!['image'] != null
+                            ? Image.network(project!['image'])
+                            : const SizedBox.shrink(),
                       ),
                       const SizedBox(height: 26),
                       Text(
@@ -154,6 +163,16 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                   ),
                 ),
               ),
+            ),
+            Visibility(
+              visible:
+                  onLoading, // Show the circular progress indicator while loading
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

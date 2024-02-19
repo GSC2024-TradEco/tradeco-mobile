@@ -71,6 +71,7 @@ class _NewDiyPageState extends State<NewDiyPage> {
     if (result.isNotEmpty) {
       setState(() {
         yoloResults = result;
+        print("RESULT YOLO");
         print(yoloResults);
       });
     } else

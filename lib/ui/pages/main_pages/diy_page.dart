@@ -225,10 +225,10 @@ class _DiyPageState extends State<DiyPage> {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
-                                                child: Image.asset(
-                                                  "assets/images/backgrounds/recycle tin.webp",
-                                                  fit: BoxFit.cover,
-                                                ),
+                                                child: project['image'] != null
+                                                    ? Image.network(
+                                                        project['image'])
+                                                    : const SizedBox.shrink(),
                                               ),
                                             ),
                                             const SizedBox(height: 5),
