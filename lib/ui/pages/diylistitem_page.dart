@@ -8,7 +8,8 @@ import 'package:zero_waste_application/ui/pages/diylistproject_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class DiyListItem extends StatefulWidget {
-  const DiyListItem({super.key});
+  const DiyListItem({super.key, this.itemFromCamera});
+  final itemFromCamera;
 
   @override
   State<DiyListItem> createState() => _DiyListItemState();
@@ -18,12 +19,31 @@ class _DiyListItemState extends State<DiyListItem> {
   TextEditingController wasteNameController = TextEditingController();
   WasteController wasteController = WasteController();
   bool onLoading = false;
-  List<Map<String, dynamic>> wasteList = [];
+  List<dynamic> wasteList = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchWastes();
+    _fetchWasteFromCamera().whenComplete(() {
+      _fetchWastes();
+    });
+  }
+
+  Future<void> _fetchWasteFromCamera() async {
+    setState(() {
+      onLoading = true;
+    });
+    if (widget.itemFromCamera != null) {
+      String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
+      for (var item in widget.itemFromCamera) {
+        Map<String, dynamic>? waste =
+            await wasteController.createOneWaste(item['tag'].trim(), token!);
+        wasteList.add(waste);
+      }
+    }
+    setState(() {
+      onLoading = false;
+    });
   }
 
   Future<void> _fetchWastes() async {
@@ -76,73 +96,82 @@ class _DiyListItemState extends State<DiyListItem> {
             const SizedBox(height: 8),
             Expanded(
               child: onLoading
-                  ? Center(child: CircularProgressIndicator()) // Show loading indicator while fetching
+                  ? Center(
+                      child:
+                          CircularProgressIndicator()) // Show loading indicator while fetching
                   : wasteList.isEmpty
-                      ? Center(child: Text('Your waste list is empty, try adding your wastes')) // Show message if the list is empty
+                      ? Center(
+                          child: Text(
+                              'Your waste list is empty, try adding your wastes')) // Show message if the list is empty
                       : ListView.separated(
-                itemBuilder: (context, index) {
-                  final waste = wasteList[index];
-                  return Container(
-                    height: 70,
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: CustomTheme.color.base1,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          waste[
-                              'name'], // Use the name field from the waste object
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: CustomTheme.fontWeight.regular,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            String? token = await FirebaseAuth
-                                .instance.currentUser!
-                                .getIdToken(true);
-                            bool success = await wasteController.deleteOneWaste(
-                                waste['id'], token!);
-                            if (success) {
-                              // Show dialog to confirm deletion
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text('Waste Deleted'),
-                                    content: const Text(
-                                        'The waste has been successfully deleted.'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('OK'),
+                          itemBuilder: (context, index) {
+                            final waste = wasteList[index];
+                            return Container(
+                              height: 70,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: CustomTheme.color.base1,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    waste[
+                                        'name'], // Use the name field from the waste object
+                                    style: GoogleFonts.lato(
+                                      textStyle: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight:
+                                            CustomTheme.fontWeight.regular,
                                       ),
-                                    ],
-                                  );
-                                },
-                              );
-                              // Refresh the waste list after deletion
-                              _fetchWastes();
-                            }
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      String? token = await FirebaseAuth
+                                          .instance.currentUser!
+                                          .getIdToken(true);
+                                      bool success = await wasteController
+                                          .deleteOneWaste(waste['id'], token!);
+                                      if (success) {
+                                        // Show dialog to confirm deletion
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text('Waste Deleted'),
+                                              content: const Text(
+                                                  'The waste has been successfully deleted.'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('OK'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                        // Refresh the waste list after deletion
+                                        _fetchWastes();
+                                      }
+                                    },
+                                    child: const Icon(
+                                        Icons.cancel_presentation_outlined),
+                                  )
+                                ],
+                              ),
+                            );
                           },
-                          child: const Icon(Icons.cancel_presentation_outlined),
-                        )
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 5);
-                },
-                itemCount: wasteList.length, // Use the length of wasteList
-              ),
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: 5);
+                          },
+                          itemCount:
+                              wasteList.length, // Use the length of wasteList
+                        ),
             ),
             const SizedBox(height: 8),
             Padding(
@@ -204,7 +233,8 @@ class _DiyListItemState extends State<DiyListItem> {
                   context,
                   MaterialPageRoute(
                     builder: (builder) => DiyListProject(
-                        wasteNames: wasteNames), // Pass the list of waste names
+                      wasteNames: wasteNames,
+                    ), // Pass the list of waste names
                   ),
                 );
               },

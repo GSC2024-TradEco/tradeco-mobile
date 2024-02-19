@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vision/flutter_vision.dart';
+import 'package:zero_waste_application/ui/pages/diylistitem_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class NewDiyPage extends StatefulWidget {
@@ -20,7 +21,7 @@ class _NewDiyPageState extends State<NewDiyPage> {
   late CameraController _cameraController;
   late Future<void> _initCameraController;
   late FlutterVision vision;
-  List<dynamic> yoloResults = [];
+  List<Map<String, dynamic>> yoloResults = [];
   bool camLoading = false;
   dynamic img;
   int imageHeight = 1;
@@ -46,12 +47,13 @@ class _NewDiyPageState extends State<NewDiyPage> {
 
   Future<void> loadYoloModel() async {
     await vision.loadYoloModel(
-        labels: 'assets/label.txt',
-        modelPath: 'assets/model.tflite',
-        modelVersion: "yolov8",
-        quantization: false,
-        numThreads: 1,
-        useGpu: true);
+      labels: 'assets/model/label.txt',
+      modelPath: 'assets/model/modelv2_float32.tflite',
+      modelVersion: "yolov8",
+      quantization: false,
+      numThreads: 1,
+      useGpu: true,
+    );
   }
 
   _detectObject(File img) async {
@@ -212,8 +214,13 @@ class _NewDiyPageState extends State<NewDiyPage> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                setState(
-                                  () {},
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (builder) => DiyListItem(
+                                      itemFromCamera: yoloResults,
+                                    ),
+                                  ),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
