@@ -20,6 +20,7 @@ class _AuthEndpoints {
 class _UserEndpoints {
   final String updateInstagram = '/user/instagram';
   final String updateLocation = '/user/location';
+  final String deleteOne = '/user';
 }
 
 class _ProjectEndpoints {
@@ -36,6 +37,7 @@ class _BookmarkEndpoints {
 class _TipEndpoints {
   final String findAll = '/tips';
   String findOne(int id) => '/tips/$id';
+  final String randomTips = '/tips/random';
 }
 
 class _PostEndpoints {

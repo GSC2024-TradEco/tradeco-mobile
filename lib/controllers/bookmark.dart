@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
-import 'package:zero_waste_application/models/project.dart';
+// import 'package:zero_waste_application/models/project.dart';
 
 class BookmarkController {
-  Future<List<Project>?> getAllBookmarks(String token) async {
+  Future<List<dynamic>?> getAllBookmarks(String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.bookmarkEndpoints.findAll);
 
     try {
@@ -17,9 +17,8 @@ class BookmarkController {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> jsonResponse = json.decode(response.body);
-        List<Project> projects =
-            jsonResponse.map((json) => Project.fromJson(json)).toList();
+        Map<String, dynamic> jsonResponse = json.decode(response.body);
+        List<dynamic> projects = jsonResponse['projects ='];
         return projects;
       }
       return null;
@@ -29,7 +28,8 @@ class BookmarkController {
     }
   }
 
-  Future<Project?> createOneBookmark(int projectId, String token) async {
+  Future<Map<String, dynamic>?> createOneBookmark(
+      int projectId, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.bookmarkEndpoints.createOne);
     Map<String, dynamic> body = {'projectId ': projectId};
 
@@ -45,7 +45,7 @@ class BookmarkController {
 
       if (response.statusCode == 201) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
-        Project project = Project.fromJson(jsonResponse['data']);
+        Map<String, dynamic> project = jsonResponse['data'];
         return project;
       }
       return null;

@@ -56,4 +56,27 @@ class UserController {
       return null;
     }
   }
+
+  Future<bool> deleteOneUser(String token) async {
+    final Uri uri =
+        Uri.parse(API.baseUrl + API.userEndpoints.deleteOne);
+
+    try {
+      final http.Response response = await http.delete(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('Error: $e');
+      return false;
+    }
+  }
 }
