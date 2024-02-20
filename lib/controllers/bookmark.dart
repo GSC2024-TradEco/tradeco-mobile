@@ -15,7 +15,8 @@ class BookmarkController {
           'Authorization': 'Bearer $token'
         },
       );
-
+      print("RE");
+      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         List<dynamic> projects = jsonResponse['projects ='];

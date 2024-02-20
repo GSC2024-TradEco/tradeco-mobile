@@ -28,7 +28,7 @@ class PostController {
   }
 
   Future<Map<String, dynamic>?> createOnePost(
-      String title, String description, XFile image, String token) async {
+      String title, String description, XFile? image, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.postEndpoints.createOne);
     final Map<String, dynamic> body = {
       'title': title,

@@ -29,12 +29,12 @@ class TipController {
     final Uri uri = Uri.parse(API.baseUrl + API.tipEndpoints.findOne(tipId));
 
     try {
-      final http.Response response = await http.post(
+      final http.Response response = await http.get(
         uri,
         headers: {'Content-Type': 'application/json'},
       );
-
-      if (response.statusCode == 201) {
+      print(response.body);
+      if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         Map<String, dynamic> data = jsonResponse['data'];
         return data;

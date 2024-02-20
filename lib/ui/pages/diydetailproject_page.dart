@@ -105,80 +105,66 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                         project?['description'] ?? "No description available",
                       ),
                       const SizedBox(height: 13),
-                      if (project?['missingMaterials'] != null)
+                      if (project?['materials'] != null &&
+                          project?['materials'].isNotEmpty)
                         Column(
                           children: [
                             Text(
-                              "Warning! You are missing a few items to build this, try contacting some of the users below to get them:",
+                              "Materials Needed:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 13),
-                            ListView.separated(
+                            ListView.builder(
                               shrinkWrap: true,
-                              itemBuilder: (build, index) {
-                                var missingMaterial =
-                                    project!['missingMaterials'][index];
-                                var usersWithMissingMaterials =
-                                    project!['usersWithMissingMaterials']
-                                        .where((element) =>
-                                            element['name'] == missingMaterial)
-                                        .toList();
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: usersWithMissingMaterials.isNotEmpty
-                                        ? CustomTheme.color.base2
-                                        : Colors.greenAccent,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        offset: const Offset(0, 4),
+                              itemCount: project!['materials'].length,
+                              itemBuilder: (context, index) {
+                                var material = project!['materials'][index];
+                                return ExpansionTile(
+                                  title: Text(material),
+                                  children: [
+                                    if (project!['missingMaterials'] != null &&
+                                        project!['missingMaterials']
+                                            .contains(material)) ...[
+                                      Text(
+                                        "You are missing this material!",
+                                        style: TextStyle(color: Colors.red),
                                       ),
+                                      const SizedBox(height: 8),
+                                      if (project![
+                                                  'usersWithMissingMaterials'] !=
+                                              null &&
+                                          project!['usersWithMissingMaterials']
+                                              .isNotEmpty)
+                                        Text(
+                                          "Try contact the Users below.",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ...[
+                                        for (var user in project![
+                                            'usersWithMissingMaterials'])
+                                          ListTile(
+                                            title: Text(user['User']
+                                                    ['displayName'] ??
+                                                ''),
+                                            subtitle: Text(
+                                                user['User']['email'] ?? ''),
+                                            tileColor: user['name'] == material
+                                                ? Colors.green
+                                                : Colors.red,
+                                            // Add a divider if the user doesn't have the material
+                                            trailing: user['name'] != material
+                                                ? Divider(
+                                                    color: Colors.black,
+                                                    height: 20,
+                                                    thickness: 1,
+                                                  )
+                                                : null,
+                                          ),
+                                      ],
                                     ],
-                                  ),
-                                  child: ExpansionTile(
-                                    title: Text(
-                                      "$missingMaterial",
-                                      style: TextStyle(
-                                        color:
-                                            usersWithMissingMaterials.isNotEmpty
-                                                ? Colors.black
-                                                : Colors.black,
-                                      ),
-                                    ),
-                                    children: usersWithMissingMaterials
-                                            .isNotEmpty
-                                        ? usersWithMissingMaterials
-                                            .map<Widget>((user) {
-                                            return ListTile(
-                                              title: Text(
-                                                  "${user['User']['displayName']}"),
-                                              subtitle: Text(
-                                                  "${user['User']['email']}"),
-                                              // You can customize the tile as needed
-                                            );
-                                          }).toList()
-                                        : [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8,
-                                                      horizontal: 16),
-                                              child: Text(
-                                                "No users with missing $missingMaterial",
-                                                style: TextStyle(
-                                                    color: Colors.grey),
-                                              ),
-                                            ),
-                                          ],
-                                  ),
+                                  ],
                                 );
                               },
-                              separatorBuilder: (build, context) {
-                                return const SizedBox(height: 7);
-                              },
-                              itemCount: project!['missingMaterials'].length,
                             ),
                           ],
                         ),
