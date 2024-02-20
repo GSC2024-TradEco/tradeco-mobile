@@ -15,16 +15,13 @@ class BookmarkController {
           'Authorization': 'Bearer $token'
         },
       );
-      print("RE");
-      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
-        List<dynamic> projects = jsonResponse['projects ='];
+        List<dynamic> projects = jsonResponse['data'];
         return projects;
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -32,7 +29,7 @@ class BookmarkController {
   Future<Map<String, dynamic>?> createOneBookmark(
       int projectId, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.bookmarkEndpoints.createOne);
-    Map<String, dynamic> body = {'projectId ': projectId};
+    Map<String, dynamic> body = {'projectId': projectId};
 
     try {
       final http.Response response = await http.post(
@@ -51,7 +48,6 @@ class BookmarkController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -74,7 +70,6 @@ class BookmarkController {
       }
       return false;
     } catch (e) {
-      print('Error: $e');
       return false;
     }
   }

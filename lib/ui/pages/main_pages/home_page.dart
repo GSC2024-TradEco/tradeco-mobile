@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zero_waste_application/controllers/bookmark.dart';
 import 'package:zero_waste_application/controllers/tip.dart';
+import 'package:zero_waste_application/ui/pages/diydetailproject_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _fetchRandomTips() async {
     try {
       Map<String, dynamic>? fetchedRandomTips =
-          await tipController.getOneTip(1);
+          await tipController.getRandomTips();
       setState(() {
         randomTips = fetchedRandomTips;
         onLoading = false; // Set loading to false after fetching the project
@@ -100,32 +101,35 @@ class _HomePageState extends State<HomePage> {
             ),
             child: Column(
               children: [
-                Text(
-                  "Random Tips",
+                Center(
+                    child: Text(
+                  "3R Random Tips",
                   style: GoogleFonts.robotoSlab(
                     textStyle: TextStyle(
                       fontSize: 20,
                       fontWeight: CustomTheme.fontWeight.regular,
                     ),
                   ),
-                ),
+                )),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (onLoading)
-                        CircularProgressIndicator()
+                        const CircularProgressIndicator()
                       else if (randomTips != null)
-                        Text(
-                          randomTips![
-                              'description'], // Assuming 'tip' is the key holding the tip content
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: CustomTheme.fontWeight.regular,
+                        Center(
+                          child: Text(
+                            randomTips![
+                                'description'], // Assuming 'tip' is the key holding the tip content
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                fontSize: 13,
+                                fontWeight: CustomTheme.fontWeight.regular,
+                              ),
                             ),
                           ),
-                        ),
+                        )
                     ],
                   ),
                 ),
@@ -135,7 +139,7 @@ class _HomePageState extends State<HomePage> {
 
           const SizedBox(height: 21),
           Container(
-            height: 156,
+            height: 180,
             width: double.infinity,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -163,22 +167,66 @@ class _HomePageState extends State<HomePage> {
                   child: onLoading
                       ? CircularProgressIndicator() // Show a loading indicator while fetching bookmarks
                       : bookmarkedProjectList.isNotEmpty
-                          ? ListView.builder(
-                              itemCount: bookmarkedProjectList.length,
-                              itemBuilder: (context, index) {
-                                // Build the list of bookmarked projects here
-                                // You can customize how each bookmarked project is displayed
-                                return ListTile(
-                                  title: Text(
-                                    bookmarkedProjectList[index].toString(),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
+                          ? GridView.count(
+                              crossAxisCount: 2,
+                              childAspectRatio: (1 / 1.25),
+                              children: List.generate(
+                                bookmarkedProjectList.length,
+                                (index) {
+                                  var project = bookmarkedProjectList[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (builder) =>
+                                              DiyDetailProject(
+                                                  projectId: project['id']),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.all(5),
+                                      padding: const EdgeInsets.all(7),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        image: const DecorationImage(
+                                          image: AssetImage(
+                                            "assets/images/backgrounds/Saved Project.png",
+                                          ),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: project['image'] != null
+                                                  ? Image.network(
+                                                      project['image'])
+                                                  : const SizedBox.shrink(),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            project['title'] ??
+                                                "Untitled Project",
+                                            style: GoogleFonts.robotoSlab(
+                                              textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: CustomTheme
+                                                    .fontWeight.regular,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  // You can add more details or actions related to each bookmarked project
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             )
                           : Column(
                               mainAxisAlignment: MainAxisAlignment.center,

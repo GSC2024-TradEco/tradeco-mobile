@@ -170,15 +170,17 @@ class _DiyPageState extends State<DiyPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "All DIY Projects",
-                        style: GoogleFonts.robotoSlab(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: CustomTheme.fontWeight.regular,
+                      Center(
+                        child: Text(
+                          "All DIY Projects",
+                          style: GoogleFonts.robotoSlab(
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: CustomTheme.fontWeight.regular,
+                            ),
                           ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                   Expanded(
