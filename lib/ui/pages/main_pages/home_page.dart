@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
 
           const SizedBox(height: 21),
           Container(
-            height: 180,
+            height: 400,
             width: double.infinity,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
