@@ -32,24 +32,20 @@ class _DiyPageState extends State<DiyPage> {
         onLoading = true;
       });
       String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
-      print(token);
       List<dynamic>? projects = await projectController.getAllProjects(token!);
-      print('projects ${projects}');
       setState(() {
         if (projects != null) {
           for (dynamic project in projects) {
             projectList.add(project);
           }
         }
-        print('success');
-        print(projects);
         onLoading = false;
       });
     } catch (e) {
       setState(() {
         onLoading = false;
       });
-      print("Error fetching wastes: $e");
+      print("Error: $e");
     }
   }
 

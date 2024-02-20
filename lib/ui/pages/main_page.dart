@@ -128,11 +128,14 @@ class _MainPageState extends State<MainPage> {
           child: Center(child: _mainMenus.elementAt(_pagesIndex))),
       floatingActionButton: _pagesIndex == 1
           ? FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const NewPostPage()),
                 );
+                if (result == true) {
+                  fetchData();
+                }
               },
               icon: const Icon(Icons.add),
               label: const Text("POST"),

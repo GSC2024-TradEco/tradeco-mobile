@@ -26,7 +26,7 @@ class _CommunityPageState extends State<CommunityPage> {
       List<dynamic>? posts = await postController.getAllPosts(token!);
       return posts ?? [];
     } catch (e) {
-      print("Error fetching posts: $e");
+      print("Error: $e");
       return [];
     }
   }

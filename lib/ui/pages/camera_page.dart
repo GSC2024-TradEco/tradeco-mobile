@@ -57,7 +57,6 @@ class _NewDiyPageState extends State<NewDiyPage> {
   }
 
   _detectObject(File img) async {
-    print("DETECT OBJECT");
     yoloResults.clear();
     Uint8List byte = await img.readAsBytes();
     final image = await decodeImageFromList(byte);
@@ -73,17 +72,13 @@ class _NewDiyPageState extends State<NewDiyPage> {
     if (result.isNotEmpty) {
       setState(() {
         yoloResults = result;
-        print("RESULT YOLO");
-        print(yoloResults);
       });
     } else
       print('nothing found');
 
-    print("DETECT FINISH");
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
-    print("DISPLAYYYY");
     if (yoloResults.isEmpty) return [];
 
     double factorX = screen.width / (imageWidth);

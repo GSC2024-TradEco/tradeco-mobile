@@ -33,7 +33,6 @@ class TipController {
         uri,
         headers: {'Content-Type': 'application/json'},
       );
-      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         Map<String, dynamic> data = jsonResponse['data'];
@@ -54,7 +53,6 @@ class TipController {
         uri,
         headers: {'Content-Type': 'application/json'},
       );
-      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         Map<String, dynamic> data = jsonResponse['data'];

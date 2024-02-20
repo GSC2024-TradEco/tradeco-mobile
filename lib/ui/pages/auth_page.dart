@@ -268,7 +268,6 @@ class _AuthPageState extends State<AuthPage> {
               const Text("Don't have any account? "),
               InkWell(
                 onTap: () {
-                  print('tap');
                   setState(() {
                     nameController.text = "";
                     emailController.text = "";
@@ -438,7 +437,6 @@ class _AuthPageState extends State<AuthPage> {
                 ),
                 InkWell(
                   onTap: () {
-                    print('tap');
                     setState(() {
                       nameController.text = "";
                       emailController.text = "";

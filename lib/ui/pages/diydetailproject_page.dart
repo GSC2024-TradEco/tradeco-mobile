@@ -38,7 +38,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
           await projectController.getOneProject(widget.projectId, token!);
       setState(() {
         project = fetchedProject;
-        if (project!['bookmarked'] != null) {
+        if (project?['bookmarked'] != null) {
           bookmarked = true;
         }
         onLoading = false; // Set loading to false after fetching the project
@@ -91,7 +91,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
           IconButton(
             onPressed: () async {
               // Implement save or bookmark functionality
-              await _toggleBookmarkProject(project!['id']);
+              await _toggleBookmarkProject(project?['id']);
             },
             icon: bookmarked
                 ? const Icon(Icons.bookmark_added)
@@ -137,8 +137,8 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: project != null && project!['image'] != null
-                            ? Image.network(project!['image'])
+                        child: project != null && project?['image'] != null
+                            ? Image.network(project?['image'])
                             : const SizedBox.shrink(),
                       ),
                       const SizedBox(height: 26),
@@ -153,14 +153,17 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                       // Clickable URL
                       GestureDetector(
                         onTap: () async {
-                          Uri url = Uri.parse(project!['reference']);
-                          await launchUrl(url);
+                          if (project != null &&
+                              project?['reference'] != null) {
+                            Uri url = Uri.parse(project?['reference']);
+                            await launch(url.toString());
+                          }
                         },
                         child: Text(
-                          project!['reference'],
+                          project?['reference'] ??
+                              '', // Provide a default value if reference is null
                           style: TextStyle(
-                            color:
-                                Colors.blue, // Change color as per your design
+                            color: Colors.blue,
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -177,31 +180,31 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                             const SizedBox(height: 13),
                             ListView.builder(
                               shrinkWrap: true,
-                              itemCount: project!['materials'].length,
+                              itemCount: project?['materials'].length,
                               itemBuilder: (context, index) {
-                                var material = project!['materials'][index];
+                                var material = project?['materials'][index];
                                 return ExpansionTile(
                                   title: Text(material),
                                   children: [
-                                    if (project!['missingMaterials'] != null &&
-                                        project!['missingMaterials']
+                                    if (project?['missingMaterials'] != null &&
+                                        project?['missingMaterials']
                                             .contains(material)) ...[
                                       Text(
                                         "You are missing this material!",
                                         style: TextStyle(color: Colors.red),
                                       ),
                                       const SizedBox(height: 8),
-                                      if (project![
+                                      if (project?[
                                                   'usersWithMissingMaterials'] !=
                                               null &&
-                                          project!['usersWithMissingMaterials']
+                                          project?['usersWithMissingMaterials']
                                               .isNotEmpty)
                                         Text(
                                           "Try contact the Users below.",
                                           style: TextStyle(color: Colors.red),
                                         ),
                                       ...[
-                                        for (var user in project![
+                                        for (var user in project?[
                                             'usersWithMissingMaterials'])
                                           ListTile(
                                             title: Text(user['User']

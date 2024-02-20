@@ -32,25 +32,21 @@ class _DiyListProjectState extends State<DiyListProject> {
         onLoading = true;
       });
       String? token = await FirebaseAuth.instance.currentUser!.getIdToken(true);
-      print(token);
       List<dynamic>? projectSuggestions = await wasteController
           .getProjectSuggestions(widget.wasteNames, token!);
-      print('project ${projectSuggestions}');
       setState(() {
         if (projectSuggestions != null) {
           for (dynamic projectSuggestion in projectSuggestions) {
             projectSuggestionList.add(projectSuggestion);
           }
         }
-        print('success');
-        print(projectSuggestionList);
         onLoading = false;
       });
     } catch (e) {
       setState(() {
         onLoading = false;
       });
-      print("Error fetching wastes: $e");
+      print("Error: $e");
     }
   }
 
