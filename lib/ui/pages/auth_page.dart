@@ -52,7 +52,8 @@ class _AuthPageState extends State<AuthPage> {
         padding: const EdgeInsets.all(8),
         child: Stack(children: [
           isLoading
-              ? const Expanded(child: Center(child: CircularProgressIndicator()))
+              ? const Expanded(
+                  child: Center(child: CircularProgressIndicator()))
               : const SizedBox(),
           view == null
               ? landingView()
@@ -231,11 +232,10 @@ class _AuthPageState extends State<AuthPage> {
                   isLoading = true;
                 });
                 try {
-                  UserCredential user = await _auth.signInWithEmailAndPassword(
+                  await _auth.signInWithEmailAndPassword(
                     email: email,
                     password: password,
                   );
-                  print(user);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -249,7 +249,6 @@ class _AuthPageState extends State<AuthPage> {
                   setState(() {
                     isLoading = false;
                   });
-                  print("Login failed: $e");
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -297,7 +296,7 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                 ),
               ),
-              const Text("  Or login with  "),
+              const Text("  Or  "),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -467,7 +466,7 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                   ),
                 ),
-                const Text("  Or register with  "),
+                const Text("  Or  "),
                 Expanded(
                   child: Container(
                     width: double.infinity,

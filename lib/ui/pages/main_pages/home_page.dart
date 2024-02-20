@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zero_waste_application/controllers/bookmark.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +15,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  BookmarkController bookmarkController = BookmarkController();
+  bool onLoading = false;
+  List<dynamic> bookmarkList = [];
+
   @override
   Widget build(BuildContext context) {
     return Container(

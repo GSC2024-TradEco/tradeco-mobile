@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
-import 'package:zero_waste_application/models/project.dart';
+// import 'package:zero_waste_application/models/project.dart';
 
 class ProjectController {
   Future<List<dynamic>?> getAllProjects(String token) async {
@@ -15,8 +15,6 @@ class ProjectController {
           'Authorization': 'Bearer $token'
         },
       );
-      print("REPONSE");
-      print(response.body);
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = json.decode(response.body);
         List<dynamic> data = jsonResponse['data'];
@@ -33,7 +31,6 @@ class ProjectController {
       int projectId, String token) async {
     final Uri uri =
         Uri.parse(API.baseUrl + API.projectEndpoints.findOne(projectId));
-    print(token);
     try {
       final http.Response response = await http.get(
         uri,

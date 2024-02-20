@@ -32,7 +32,17 @@ class _CommunityPageState extends State<CommunityPage> {
   }
 
   String _formatDateTime(String dateTimeString) {
-    DateTime dateTime = DateTime.parse(dateTimeString);
+    // Remove the timezone offset before parsing
+    String formattedString =
+        dateTimeString.replaceAll(RegExp(r' [+-]\d{4}$'), '');
+
+    // Parse the datetime string
+    DateTime dateTime = DateTime.parse(formattedString);
+
+    // Adjust to local timezone
+    dateTime = dateTime.toLocal();
+
+    // Format the datetime
     return DateFormat.yMMMMd().add_jms().format(dateTime);
   }
 
@@ -43,7 +53,7 @@ class _CommunityPageState extends State<CommunityPage> {
         future: _fetchPostsFuture,
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
