@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
-import 'package:zero_waste_application/models/tip.dart';
+// import 'package:zero_waste_application/models/tip.dart';
 
 class TipController {
   Future<List<dynamic>?> getAllTips() async {

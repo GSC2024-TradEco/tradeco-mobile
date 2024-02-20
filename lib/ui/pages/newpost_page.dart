@@ -55,7 +55,7 @@ class _NewPostPageState extends State<NewPostPage> {
                 String description = descriptionController.text;
                 String? token = await _auth.currentUser!.getIdToken(true);
                 Map<String, dynamic>? post = await postController.createOnePost(
-                    title, description, token!);
+                    title, description, image, token!);
                 if (post != null) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
 
@@ -27,11 +28,12 @@ class PostController {
   }
 
   Future<Map<String, dynamic>?> createOnePost(
-      String title, String description, String token) async {
+      String title, String description, XFile image, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.postEndpoints.createOne);
-    final Map<String, String> body = {
+    final Map<String, dynamic> body = {
       'title': title,
-      'description': description
+      'description': description,
+      'image': image
     };
     try {
       final http.Response response = await http.post(
