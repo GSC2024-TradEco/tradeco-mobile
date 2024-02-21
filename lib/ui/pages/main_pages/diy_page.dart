@@ -53,207 +53,204 @@ class _DiyPageState extends State<DiyPage> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      child: Expanded(
-        child: Column(
-          children: [
-            Text(
-              'Upcycle your waste, ignite your creativity!',
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: CustomTheme.fontWeight.light,
-                ),
+      child: Column(
+        children: [
+          Text(
+            'Upcycle your waste, ignite your creativity!',
+            style: GoogleFonts.lato(
+              textStyle: TextStyle(
+                fontSize: 18,
+                fontWeight: CustomTheme.fontWeight.light,
               ),
             ),
-            Text(
-              'Your trash, your treasure.',
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: CustomTheme.fontWeight.bold,
-                  color: CustomTheme.color.base1,
-                ),
+          ),
+          Text(
+            'Your trash, your treasure.',
+            style: GoogleFonts.lato(
+              textStyle: TextStyle(
+                fontSize: 18,
+                fontWeight: CustomTheme.fontWeight.bold,
+                color: CustomTheme.color.base1,
               ),
             ),
-            const SizedBox(height: 18),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (builder) => NewDiyPage(cam: widget.cam),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+          ),
+          const SizedBox(height: 18),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (builder) => NewDiyPage(cam: widget.cam),
                     ),
-                  ),
-                  child: SizedBox(
-                    height: 120,
-                    width: 85,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/images/icons/scan.png",
-                          width: 38,
-                          height: 38,
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          "Scan Wastes",
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: CustomTheme.fontWeight.regular,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (builder) => DiyListItem(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: SizedBox(
-                    height: 120,
-                    width: 85,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/images/icons/items.png",
-                          width: 38,
-                          height: 38,
-                        ),
-                        const SizedBox(height: 15),
-                        Text(
-                          "My Wastes",
-                          style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                              fontSize: 13,
-                              fontWeight: CustomTheme.fontWeight.regular,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 18),
-            Expanded(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: SizedBox(
+                  height: 120,
+                  width: 85,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(
-                        child: Text(
-                          "All DIY Projects",
-                          style: GoogleFonts.robotoSlab(
-                            textStyle: TextStyle(
-                              fontSize: 20,
-                              fontWeight: CustomTheme.fontWeight.regular,
-                            ),
+                      Image.asset(
+                        "assets/images/icons/scan.png",
+                        width: 38,
+                        height: 38,
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        "Scan Wastes",
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: 13,
+                            fontWeight: CustomTheme.fontWeight.regular,
                           ),
                         ),
                       )
                     ],
                   ),
-                  Expanded(
-                    child: onLoading
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : projectList.isEmpty
-                            ? Text('No projects available.')
-                            : GridView.count(
-                                crossAxisCount: 2,
-                                childAspectRatio: (1 / 1.25),
-                                children: List.generate(
-                                  projectList.length,
-                                  (index) {
-                                    var project = projectList[index];
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (builder) =>
-                                                DiyDetailProject(
-                                                    projectId: project['id']),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        margin: const EdgeInsets.all(5),
-                                        padding: const EdgeInsets.all(7),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                              "assets/images/backgrounds/Saved Project.png",
-                                            ),
-                                            fit: BoxFit.fill,
-                                          ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (builder) => DiyListItem(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: SizedBox(
+                  height: 120,
+                  width: 85,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/images/icons/items.png",
+                        width: 38,
+                        height: 38,
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        "My Wastes",
+                        style: GoogleFonts.lato(
+                          textStyle: TextStyle(
+                            fontSize: 13,
+                            fontWeight: CustomTheme.fontWeight.regular,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Expanded(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Center(
+                      child: Text(
+                        "All DIY Projects",
+                        style: GoogleFonts.robotoSlab(
+                          textStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: CustomTheme.fontWeight.regular,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: onLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : projectList.isEmpty
+                          ? Text('No projects available.')
+                          : GridView.count(
+                              crossAxisCount: 2,
+                              childAspectRatio: (1 / 1.25),
+                              children: List.generate(
+                                projectList.length,
+                                (index) {
+                                  var project = projectList[index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (builder) =>
+                                              DiyDetailProject(
+                                                  projectId: project['id']),
                                         ),
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                child: project['image'] != null
-                                                    ? Image.network(
-                                                        project['image'])
-                                                    : const SizedBox.shrink(),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Text(
-                                              project['title'] ??
-                                                  "Untitled Project",
-                                              style: GoogleFonts.robotoSlab(
-                                                textStyle: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: CustomTheme
-                                                      .fontWeight.regular,
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                      );
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.all(5),
+                                      padding: const EdgeInsets.all(7),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        image: const DecorationImage(
+                                          image: AssetImage(
+                                            "assets/images/backgrounds/Saved Project.png",
+                                          ),
+                                          fit: BoxFit.fill,
                                         ),
                                       ),
-                                    );
-                                  },
-                                ),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: project['image'] != null
+                                                  ? Image.network(
+                                                      project['image'])
+                                                  : const SizedBox.shrink(),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            project['title'] ??
+                                                "Untitled Project",
+                                            style: GoogleFonts.robotoSlab(
+                                              textStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: CustomTheme
+                                                    .fontWeight.regular,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                            ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
