@@ -1,17 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:zero_waste_application/controllers/bookmark.dart';
 import 'package:zero_waste_application/controllers/project.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class DiyDetailProject extends StatefulWidget {
-  const DiyDetailProject({Key? key, required this.projectId}) : super(key: key);
+  const DiyDetailProject({super.key, required this.projectId});
   final int projectId;
 
   @override
@@ -156,7 +151,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                           if (project != null &&
                               project?['reference'] != null) {
                             Uri url = Uri.parse(project?['reference']);
-                            await launch(url.toString());
+                            await launchUrl(url);
                           }
                         },
                         child: Text(
