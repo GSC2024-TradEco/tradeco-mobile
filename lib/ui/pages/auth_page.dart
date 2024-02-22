@@ -52,8 +52,7 @@ class _AuthPageState extends State<AuthPage> {
         padding: const EdgeInsets.all(8),
         child: Stack(children: [
           isLoading
-              ? const Expanded(
-                  child: Center(child: CircularProgressIndicator()))
+              ? const Center(child: CircularProgressIndicator())
               : const SizedBox(),
           view == null
               ? landingView()
