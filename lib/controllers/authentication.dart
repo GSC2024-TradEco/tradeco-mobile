@@ -22,7 +22,6 @@ class AuthController {
       }
       return false;
     } catch (e) {
-      print('Error: $e');
       return false;
     }
   }

@@ -29,26 +29,28 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AuthenticationWrapper(),
+      home: const AuthenticationWrapper(),
       theme: ThemeData(scaffoldBackgroundColor: CustomTheme.color.background1),
     );
   }
 }
 
 class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // or a loading indicator
+          return const CircularProgressIndicator(); // or a loading indicator
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData && snapshot.data != null) {
           return MainPage(cam: cameras.first);
         } else {
-          return AuthPage();
+          return const AuthPage();
         }
       },
     );

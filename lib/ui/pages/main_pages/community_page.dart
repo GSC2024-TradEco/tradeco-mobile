@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:zero_waste_application/controllers/post.dart';
+import 'package:zero_waste_application/ui/pages/newpost_page.dart';
 
 class CommunityPage extends StatefulWidget {
   const CommunityPage({Key? key}) : super(key: key);
@@ -32,17 +33,10 @@ class _CommunityPageState extends State<CommunityPage> {
   }
 
   String _formatDateTime(String dateTimeString) {
-    // Remove the timezone offset before parsing
     String formattedString =
         dateTimeString.replaceAll(RegExp(r' [+-]\d{4}$'), '');
-
-    // Parse the datetime string
     DateTime dateTime = DateTime.parse(formattedString);
-
-    // Adjust to local timezone
     dateTime = dateTime.toLocal();
-
-    // Format the datetime
     return DateFormat.yMMMMd().add_jms().format(dateTime);
   }
 
@@ -67,79 +61,107 @@ class _CommunityPageState extends State<CommunityPage> {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
               List<dynamic> postList = snapshot.data ?? [];
-              return ListView.separated(
-                itemBuilder: (context, index) {
-                  final post = postList[index];
-                  final user = post['User'];
-                  return InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
+              return Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NewPostPage(),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.person, size: 44),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(user['displayName']),
-                                    Text(_formatDateTime(post['createdAt'])),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.all(8),
+                      );
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.add), // Add your desired icon here
+                        SizedBox(
+                            width:
+                                5), // Add some spacing between the icon and text
+                        Text('Add New Post'),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      itemBuilder: (context, index) {
+                        final post = postList[index];
+                        final user = post['User'];
+                        return InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    post['title'],
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.account_circle,
+                                          size: 44),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(user['displayName'],
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(_formatDateTime(
+                                              post['createdAt'])),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    post['description'],
-                                    style: const TextStyle(
-                                      fontSize: 16,
+                                  Container(
+                                    width: double.infinity,
+                                    margin: const EdgeInsets.all(8),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          post['title'],
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          post['description'],
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        post['image'] != null
+                                            ? Image.network(post['image'])
+                                            : const SizedBox.shrink(),
+                                        const SizedBox(height: 5),
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  post['image'] != null
-                                      ? Image.network(post['image'])
-                                      : const SizedBox.shrink(),
-                                  const SizedBox(height: 5),
-                                  // const Row(
-                                  //   children: [
-                                  //     Icon(Icons.thumb_up_alt_outlined),
-                                  //   ],
-                                  // )
+                                  )
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 4);
+                      },
+                      itemCount: postList.length,
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 4);
-                },
-                itemCount: postList.length,
+                  ),
+                ],
               );
             }
           },

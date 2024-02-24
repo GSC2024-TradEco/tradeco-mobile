@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/community_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/diy_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/home_page.dart';
-import 'package:zero_waste_application/ui/pages/message_page.dart';
-import 'package:zero_waste_application/ui/pages/newpost_page.dart';
 import 'package:zero_waste_application/ui/pages/profile_page.dart';
+import 'package:zero_waste_application/ui/pages/userchat_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class MainPage extends StatefulWidget {
@@ -132,11 +131,11 @@ class _MainPageState extends State<MainPage> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const NewPostPage()),
+                  MaterialPageRoute(builder: (context) => const UserChatPage()),
                 );
               },
-              icon: const Icon(Icons.add),
-              label: const Text("POST"),
+              icon: const Icon(Icons.message_rounded),
+              label: const Text("Messages"),
             )
           : const Text(""),
     );

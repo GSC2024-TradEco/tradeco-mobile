@@ -22,7 +22,6 @@ class ProjectController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -46,7 +45,6 @@ class ProjectController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }

@@ -24,7 +24,6 @@ class WasteController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -50,7 +49,6 @@ class WasteController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -73,7 +71,6 @@ class WasteController {
       }
       return false;
     } catch (e) {
-      print('Error: $e');
       return false;
     }
   }
@@ -102,7 +99,6 @@ class WasteController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }

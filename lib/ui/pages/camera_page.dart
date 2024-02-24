@@ -2,9 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:zero_waste_application/ui/pages/diylistitem_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
@@ -73,9 +71,7 @@ class _NewDiyPageState extends State<NewDiyPage> {
       setState(() {
         yoloResults = result;
       });
-    } else
-      print('nothing found');
-
+    } 
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {

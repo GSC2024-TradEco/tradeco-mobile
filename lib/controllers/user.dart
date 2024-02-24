@@ -25,7 +25,6 @@ class UserController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -52,7 +51,6 @@ class UserController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -75,7 +73,6 @@ class UserController {
       }
       return false;
     } catch (e) {
-      print('Error: $e');
       return false;
     }
   }

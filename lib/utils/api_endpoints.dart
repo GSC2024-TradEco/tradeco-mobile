@@ -54,6 +54,7 @@ class _WasteEndpoints {
 }
 
 class _MessageEndpoints {
+  final String getUserChats = '/messages';
   String findAll(int userId) => '/messages/$userId';
   final String createOne = '/message';
 }

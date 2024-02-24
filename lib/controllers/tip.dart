@@ -20,7 +20,6 @@ class TipController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -40,7 +39,6 @@ class TipController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
@@ -60,7 +58,6 @@ class TipController {
       }
       return null;
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
