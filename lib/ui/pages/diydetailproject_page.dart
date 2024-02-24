@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zero_waste_application/controllers/bookmark.dart';
 import 'package:zero_waste_application/controllers/project.dart';
+import 'package:zero_waste_application/ui/pages/message_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';
 
 class DiyDetailProject extends StatefulWidget {
-  const DiyDetailProject({super.key, required this.projectId});
+  const DiyDetailProject({Key? key, required this.projectId}) : super(key: key);
   final int projectId;
 
   @override
@@ -141,7 +142,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                         project?['description'] ?? "No description available",
                       ),
                       const SizedBox(height: 26),
-                      Text(
+                      const Text(
                         "Here's a tutorial to help you make it come true!",
                       ),
                       const SizedBox(height: 13),
@@ -157,7 +158,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                         child: Text(
                           project?['reference'] ??
                               '', // Provide a default value if reference is null
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.blue,
                             decoration: TextDecoration.underline,
                           ),
@@ -168,7 +169,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                           project?['materials'].isNotEmpty)
                         Column(
                           children: [
-                            Text(
+                            const Text(
                               "Materials Needed:",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
@@ -184,7 +185,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                                     if (project?['missingMaterials'] != null &&
                                         project?['missingMaterials']
                                             .contains(material)) ...[
-                                      Text(
+                                      const Text(
                                         "You are missing this material!",
                                         style: TextStyle(color: Colors.red),
                                       ),
@@ -194,7 +195,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                                               null &&
                                           project?['usersWithMissingMaterials']
                                               .isNotEmpty)
-                                        Text(
+                                        const Text(
                                           "Try contact the Users below.",
                                           style: TextStyle(color: Colors.red),
                                         ),
@@ -205,19 +206,36 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
                                             title: Text(user['User']
                                                     ['displayName'] ??
                                                 ''),
-                                            subtitle: Text(
-                                                user['User']['email'] ?? ''),
                                             tileColor: user['name'] == material
                                                 ? Colors.green
                                                 : Colors.red,
                                             // Add a divider if the user doesn't have the material
                                             trailing: user['name'] != material
-                                                ? Divider(
+                                                ? const Divider(
                                                     color: Colors.black,
                                                     height: 20,
                                                     thickness: 1,
                                                   )
                                                 : null,
+                                            leading: Icon(Icons.message),
+                                            onTap: () {
+                                              if (user['User'] != null &&
+                                                  user['User']['id'] != null) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (builder) =>
+                                                        ChatPage(
+                                                      userDisplayName:
+                                                          user['User']
+                                                              ['displayName'],
+                                                      userId: user['User']
+                                                          ['id'],
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            },
                                           ),
                                       ],
                                     ],
@@ -235,7 +253,7 @@ class _DiyDetailProjectState extends State<DiyDetailProject> {
             Visibility(
               visible:
                   onLoading, // Show the circular progress indicator while loading
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(),
               ),
             ),

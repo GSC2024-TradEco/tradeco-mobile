@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/community_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/diy_page.dart';
 import 'package:zero_waste_application/ui/pages/main_pages/home_page.dart';
+import 'package:zero_waste_application/ui/pages/message_page.dart';
 import 'package:zero_waste_application/ui/pages/newpost_page.dart';
 import 'package:zero_waste_application/ui/pages/profile_page.dart';
 import 'package:zero_waste_application/ui/styles/custom_theme.dart';

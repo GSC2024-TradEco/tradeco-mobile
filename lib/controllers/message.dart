@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:zero_waste_application/utils/api_endpoints.dart';
 
-class messageController {
+class MessageController {
   Future<List<dynamic>?> getAllMessages(int userId, String token) async {
     final Uri uri =
         Uri.parse(API.baseUrl + API.messageEndpoints.findAll(userId));
@@ -28,10 +28,10 @@ class messageController {
     }
   }
 
-  Future<Map<String, dynamic>?> createOneWaste(
-      String waste, String token) async {
+  Future<Map<String, dynamic>?> createOneMessage(
+      int userId, String text, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.messageEndpoints.createOne);
-    Map<String, dynamic> body = {'waste': waste};
+    Map<String, dynamic> body = {'receiverId': userId, 'text': text};
 
     try {
       final http.Response response = await http.post(
