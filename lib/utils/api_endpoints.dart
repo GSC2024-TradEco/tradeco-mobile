@@ -11,6 +11,7 @@ class API {
   static _TipEndpoints tipEndpoints = _TipEndpoints();
   static _PostEndpoints postEndpoints = _PostEndpoints();
   static _WasteEndpoints wasteEndpoints = _WasteEndpoints();
+  static _MessageEndpoints messageEndpoints = _MessageEndpoints();
 }
 
 class _AuthEndpoints {
@@ -50,4 +51,9 @@ class _WasteEndpoints {
   final String createOne = '/waste';
   String deleteOne(int id) => '/wastes/$id';
   final String getSuggestion = '/wastes/project-suggestions';
+}
+
+class _MessageEndpoints {
+  String findAll(int userId) => '/messages/$userId';
+  final String createOne = '/message';
 }
