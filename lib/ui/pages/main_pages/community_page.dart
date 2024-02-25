@@ -71,7 +71,6 @@ class _CommunityPageState extends State<CommunityPage> {
                           builder: (context) => const NewPostPage(),
                         ),
                       );
-
                       if (result == true) {
                         _refreshPosts();
                       }
