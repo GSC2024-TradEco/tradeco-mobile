@@ -22,12 +22,13 @@ class _NewPostPageState extends State<NewPostPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final ImagePicker imagePicker = ImagePicker();
-  XFile? image;
+  File? image;
 
   Future getImage(ImageSource media) async {
-    var img = await imagePicker.pickImage(source: media);
+    final XFile? img = await imagePicker.pickImage(source: media);
+    File file = File(img!.path);
     setState(() {
-      image = img;
+      image = file;
     });
   }
 
@@ -54,16 +55,50 @@ class _NewPostPageState extends State<NewPostPage> {
                 String title = titleController.text;
                 String description = descriptionController.text;
                 String? token = await _auth.currentUser!.getIdToken(true);
-                Map<String, dynamic>? post = await postController.createOnePost(
-                    title, description, token!);
-                if (post != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Post created successfully'),
-                    ),
+                bool post = await postController.createOnePost(
+                    title, description, image, token!);
+                print("POST");
+                print(post);
+                if (post == true) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Post Created'),
+                        content: const Text(
+                            'The post has been successfully created.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
                   );
-                  Navigator.of(context).pop();
+                } else {
+                  print("hs");
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Post Failed'),
+                        content: const Text('The post failed to created.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
+                Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
