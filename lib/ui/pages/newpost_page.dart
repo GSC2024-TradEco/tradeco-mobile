@@ -57,8 +57,6 @@ class _NewPostPageState extends State<NewPostPage> {
                 String? token = await _auth.currentUser!.getIdToken(true);
                 bool post = await postController.createOnePost(
                     title, description, image, token!);
-                print("POST");
-                print(post);
                 if (post == true) {
                   showDialog(
                     context: context,
@@ -71,6 +69,7 @@ class _NewPostPageState extends State<NewPostPage> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
+                              Navigator.of(context).pop(true);
                             },
                             child: const Text('OK'),
                           ),
@@ -79,7 +78,6 @@ class _NewPostPageState extends State<NewPostPage> {
                     },
                   );
                 } else {
-                  print("hs");
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -90,6 +88,7 @@ class _NewPostPageState extends State<NewPostPage> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
+                              Navigator.of(context).pop(false);
                             },
                             child: const Text('OK'),
                           ),
@@ -98,7 +97,6 @@ class _NewPostPageState extends State<NewPostPage> {
                     },
                   );
                 }
-                Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

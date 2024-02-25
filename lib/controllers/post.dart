@@ -34,7 +34,7 @@ class PostController {
   Future<bool> createOnePost(
       String title, String description, File? image, String token) async {
     final Uri uri = Uri.parse(API.baseUrl + API.postEndpoints.createOne);
-
+    print(token);
     try {
       final request = http.MultipartRequest('POST', uri);
       request.headers['Authorization'] = 'Bearer $token';

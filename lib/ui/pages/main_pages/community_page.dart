@@ -64,13 +64,17 @@ class _CommunityPageState extends State<CommunityPage> {
               return Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async {
+                      final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const NewPostPage(),
                         ),
                       );
+
+                      if (result == true) {
+                        _refreshPosts();
+                      }
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
