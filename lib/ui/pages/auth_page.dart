@@ -97,7 +97,7 @@ class _AuthPageState extends State<AuthPage> {
                 ),
               ),
               Text(
-                "Trade, Creative, Elevate",
+                "Trade, Create, Elevate",
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
                     fontSize: 20,
@@ -156,23 +156,23 @@ class _AuthPageState extends State<AuthPage> {
                       child: const Text("Login"),
                     ),
                   ),
-                  Text(
-                    "or",
-                    style: GoogleFonts.lato(
-                      textStyle: const TextStyle(fontWeight: FontWeight.w300),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 252,
-                    height: 44,
-                    child: SignInButton(
-                      Buttons.google,
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                  ),
+                  // Text(
+                  //   "or",
+                  //   style: GoogleFonts.lato(
+                  //     textStyle: const TextStyle(fontWeight: FontWeight.w300),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   width: 252,
+                  //   height: 44,
+                  //   child: SignInButton(
+                  //     Buttons.google,
+                  //     onPressed: () {},
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(5),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -282,41 +282,41 @@ class _AuthPageState extends State<AuthPage> {
               )
             ],
           ),
-          const SizedBox(height: 18),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 0.25),
-                  ),
-                ),
-              ),
-              const Text("  Or  "),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 0.25),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 18),
-          SizedBox(
-            width: 252,
-            height: 44,
-            child: SignInButton(
-              Buttons.google,
-              onPressed: () {},
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-          ),
+          // const SizedBox(height: 18),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Expanded(
+          //       child: Container(
+          //         width: double.infinity,
+          //         decoration: BoxDecoration(
+          //           border: Border.all(color: Colors.black, width: 0.25),
+          //         ),
+          //       ),
+          //     ),
+          //     const Text("  Or  "),
+          //     Expanded(
+          //       child: Container(
+          //         width: double.infinity,
+          //         decoration: BoxDecoration(
+          //           border: Border.all(color: Colors.black, width: 0.25),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 18),
+          // SizedBox(
+          //   width: 252,
+          //   height: 44,
+          //   child: SignInButton(
+          //     Buttons.google,
+          //     onPressed: () {},
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(5),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -451,41 +451,41 @@ class _AuthPageState extends State<AuthPage> {
                 )
               ],
             ),
-            const SizedBox(height: 18),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 0.25),
-                    ),
-                  ),
-                ),
-                const Text("  Or  "),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 0.25),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 18),
-            SizedBox(
-              width: 252,
-              height: 44,
-              child: SignInButton(
-                Buttons.google,
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-            ),
+            // const SizedBox(height: 18),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Expanded(
+            //       child: Container(
+            //         width: double.infinity,
+            //         decoration: BoxDecoration(
+            //           border: Border.all(color: Colors.black, width: 0.25),
+            //         ),
+            //       ),
+            //     ),
+            //     const Text("  Or  "),
+            //     Expanded(
+            //       child: Container(
+            //         width: double.infinity,
+            //         decoration: BoxDecoration(
+            //           border: Border.all(color: Colors.black, width: 0.25),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(height: 18),
+            // SizedBox(
+            //   width: 252,
+            //   height: 44,
+            //   child: SignInButton(
+            //     Buttons.google,
+            //     onPressed: () {},
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(5),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
