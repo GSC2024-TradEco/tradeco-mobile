@@ -248,6 +248,23 @@ class _AuthPageState extends State<AuthPage> {
                   setState(() {
                     isLoading = false;
                   });
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Login Failed'),
+                        content: Text('$e'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -388,34 +405,60 @@ class _AuthPageState extends State<AuthPage> {
                 });
               },
             ),
+            if (!passwordMatch)
+              const Text(
+                'Passwords do not match',
+                style: TextStyle(color: Colors.red),
+              ),
             const SizedBox(height: 25),
             SizedBox(
               width: double.infinity,
               height: 44,
               child: ElevatedButton(
-                onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  bool success = await authController.register(
-                    nameController.text,
-                    emailController.text,
-                    passwordController.text,
-                  );
-                  setState(() {
-                    isLoading = false;
-                  });
+                onPressed: passwordMatch
+                    ? () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        bool success = await authController.register(
+                          nameController.text,
+                          emailController.text,
+                          passwordController.text,
+                        );
+                        setState(() {
+                          isLoading = false;
+                        });
 
-                  if (success) {
-                    setState(() {
-                      nameController.text = "";
-                      emailController.text = "";
-                      passwordController.text = "";
-                      confirmPasswordController.text = "";
-                      view = 0;
-                    });
-                  }
-                },
+                        if (success) {
+                          setState(() {
+                            nameController.text = "";
+                            emailController.text = "";
+                            passwordController.text = "";
+                            confirmPasswordController.text = "";
+                            view = 0;
+                          });
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Register Failed'),
+                                content: const Text(
+                                    'Try using another email address'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: CustomTheme.color.base1,
                   foregroundColor: Colors.white,
